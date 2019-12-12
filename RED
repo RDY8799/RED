@@ -2379,7 +2379,7 @@ apt-get install -y apache2 1> /dev/null 2> /dev/null & RDYSPINNER
 else
 yum install -y apache2 1> /dev/null 2> /dev/null & RDYSPINNER
 fi
-
+sed 's/Listen 80/Listen 81/' /etc/apache2/ports.conf 2> /dev/null & RDYSPINNER
 fi
 
 if [[ "$PHPSTATUS" = 'NO' ]]; then
