@@ -2391,8 +2391,8 @@ fi
 
 rm /bin/nuser.sh* 1> /dev/null 2> /dev/null & RDYSPINNER
 rm /var/www/html/file.php* 1> /dev/null 2> /dev/null & RDYSPINNER
-wget -P /var/www/html https://raw.githubusercontent.com/RDY8799/RED/master/file.php?token=$tokenprim 1> /dev/null 2> /dev/null & RDYSPINNER
-wget -P /var/www/html https://raw.githubusercontent.com/RDY8799/RED/master/nuser.sh?token=$tokensec 1> /dev/null 2> /dev/null & RDYSPINNER
+wget -P /var/www/html https://raw.githubusercontent.com/RDY8799/RED/master/file.php 1> /dev/null 2> /dev/null & RDYSPINNER
+wget -P /var/www/html https://raw.githubusercontent.com/RDY8799/RED/master/nuser.sh 1> /dev/null 2> /dev/null & RDYSPINNER
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}CONFIGURAÇÃO CONCLUÍDA COM ${green}SUCESSO!$f";
 echo "";
@@ -2409,9 +2409,6 @@ echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla
 RDYMENU
 fi
 
-
-
-https://raw.githubusercontent.com/RDY8799/RED/master/file.php?token=AG7MYECYK6SILXJV4SOIXM256K77S
 }
 
 # COMANDOS DIRETOS
