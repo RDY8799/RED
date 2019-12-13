@@ -2273,47 +2273,6 @@ $mainmenu
 }
 
 
-RDYMENU(){
-############################ MENU DE OPÇÕES #########################################
-clear
-echo -e $DIVIS
-
-echo -e "$yellow CPU USADA:$cyano$CPU ${blue}|$f$yellow RAM USADA: $cyano$(($usedram / 1024))MB$yellow LIVRE: $cyano$(($freeram / 1024))MB ${blue}|$f$yellow SWAP: $cyano$(($swapram / 1024))MB  $f"
-echo -e "$green ##### $white IP:$cyano  $ip ${blue}| $ippublic $f";
-echo -e "$green ##### $white $SYSTEM:$cyano  $(cat /etc/so) $f";
-echo -e "$green ##### $white $USER:$cyano  $USERPROFILENAME $f";
-echo -e $DIVIS
-echo -e "$green $yellow [${blue}i$yellow] $yellow=$f$white $NOTIFICATION $yellow 5         ${blue}/${red}/${green}/ $cyano$about$f";
-echo -e $DIVIS
-echo -e "$green $yellow [${blue}01$yellow] $yellow=$f$white $MENU_INSTALL $f"; 
-echo -e "$green $yellow [${blue}02$yellow] $yellow=$f$white $MANAGE_USERS $f"; 
-echo -e "$green $yellow [${blue}03$yellow] $yellow=$f$white $TOOLS $f"; 
-echo -e "$green $yellow [${blue}04$yellow] $yellow=$f$white $ABOUT $f";
-echo -e "$green $yellow [${blue}00$yellow] $yellow=$f$white $EXIT $f";
-echo -e $DIVIS
-echo -ne "$yellow  Opção:$f";read -p ""  option
-case $option in
-
-i | I ) echo -e "${white}//${yellow}//${green}//${mag}//    ${green}$OP_NOT_DEVELOPED$f";
-$mainmenu;;
-n | net | N | NET) netstat -nlpt
-echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
-$mainmenu;;
-1 | 01) RDYINSTALL;;
-2 | 02) RDYUSERMANAGER;;
-3 | 03) RDYTOOLS;;
-4 | 04) RDYABOUT;;
-00 | 0) exit ;;
-remove_all | r_all ) 
-echo -e "removendo resíduos, isso é ${red}PERIGOSO!$f";
-find /tmp -mtime +7 |\
-    egrep -v "`lsof -n +D /tmp | awk 'NR>1 {print $9}'| tr \\n \|`" & RDYSPINNER
-		echo "concluído!";;
- *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $mainmenu;;
-   esac
-#######################################################################################
-}
-
 RDYSSHCONTROL(){
 clear
 echo -e $DIVIS
@@ -2321,6 +2280,15 @@ figlet 'SSH Control' -f small
 echo -e $DIVIS
 echo -e "${blue}INSTALADOR SSH Control - $about $f";
 echo -e $DIVIS
+
+fileinstall(){
+rm /bin/nuser.sh* 1> /dev/null 2> /dev/null & RDYSPINNER
+rm /var/www/html/file.php* 1> /dev/null 2> /dev/null & RDYSPINNER
+wget -P /var/www/html https://raw.githubusercontent.com/RDY8799/RED/master/file.php 1> /dev/null 2> /dev/null & RDYSPINNER
+wget -P /bin https://raw.githubusercontent.com/RDY8799/RED/master/nuser.sh 1> /dev/null 2> /dev/null & RDYSPINNER
+chmod +x /bin/nuser.sh 1> /dev/null 2> /dev/null & RDYSPINNER
+/etc/init.d/apache2 restart 1> /dev/null 2> /dev/null & RDYSPINNER
+}
 
 if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
@@ -2396,12 +2364,7 @@ yum install -y libssh2-1 php-ssh2 -y restart 1> /dev/null 2> /dev/null & RDYSPIN
 fi
 fi
 
-rm /bin/nuser.sh* 1> /dev/null 2> /dev/null & RDYSPINNER
-rm /var/www/html/file.php* 1> /dev/null 2> /dev/null & RDYSPINNER
-wget -P /var/www/html https://raw.githubusercontent.com/RDY8799/RED/master/file.php 1> /dev/null 2> /dev/null & RDYSPINNER
-wget -P /bin https://raw.githubusercontent.com/RDY8799/RED/master/nuser.sh 1> /dev/null 2> /dev/null & RDYSPINNER
-chmod +x /bin/nuser.sh 1> /dev/null 2> /dev/null & RDYSPINNER
-/etc/init.d/apache2 restart 1> /dev/null 2> /dev/null & RDYSPINNER
+fileinstall
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}CONFIGURAÇÃO CONCLUÍDA COM ${green}SUCESSO!$f";
 echo "";
@@ -2419,9 +2382,85 @@ echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla
 RDYMENU
 fi
 else
+
+echo -e "$green $yellow [${blue}01$yellow] $yellow=$f$white REINSTALAR ARQUIVOS $f"; 
+echo -e "$green $yellow [${blue}02$yellow] $yellow=$f$white REMOVER CONFIGURAÇÃO $f";
+echo -e "$green $yellow [${blue}04$yellow] $yellow=$f$white $ABOUT $f";
+echo -e "$green $yellow [${blue}00$yellow] $yellow=$f$white $EXIT $f";
+echo -e $DIVIS
+echo -ne "$yellow  Opção:$f";read -p ""  option
+case $option in
+1 | 01) fileinstall
+echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}CONFIGURAÇÃO CONCLUÍDA COM ${green}SUCESSO!$f";
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...$f"; read -n1 -r -p "";
+RDYSSHCONTROL;;
+2 | 02) if [[ "$OS" = 'debian' ]]; then
+apt-get purge -y apache2 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get purge -y php-pear php7.0-dev php7.0-zip php7.0-curl php7.0-gd php7.0-mysql php7.0-mcrypt php7.0-xml libapache2-mod-php7.0 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get purge libssh2-1 php-ssh2 -y 1> /dev/null 2> /dev/null & RDYSPINNER
+else
+yum purge -y apache2 1> /dev/null 2> /dev/null & RDYSPINNER
+yum purge -y php-pear php7.0-dev php7.0-zip php7.0-curl php7.0-gd php7.0-mysql php7.0-mcrypt php7.0-xml libapache2-mod-php7.0 1> /dev/null 2> /dev/null & RDYSPINNER
+yum purge -y libssh2-1 php-ssh2 -y restart 1> /dev/null 2> /dev/null & RDYSPINNER
+fi
+echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}DESINSTALAÇÃO ${green}CONCLUÍDA!$f";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
+RDYSSHCONTROL
+;;
+3 | 03) RDYABOUT;;
+app | APP) RDYSSHCONTROL;;
+00 | 0) exit ;;
+i | I ) echo -e "${white}//${yellow}//${green}//${mag}//    ${green}$OP_NOT_DEVELOPED$f";
+$mainmenu;;
+n | net | N | NET) netstat -nlpt
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
+RDYSSHCONTROL;;
+ *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $mainmenu;;
+   esac
 fi
 
+}
+
+RDYMENU(){
+############################ MENU DE OPÇÕES #########################################
+clear
+echo -e $DIVIS
+
+echo -e "$yellow CPU USADA:$cyano$CPU ${blue}|$f$yellow RAM USADA: $cyano$(($usedram / 1024))MB$yellow LIVRE: $cyano$(($freeram / 1024))MB ${blue}|$f$yellow SWAP: $cyano$(($swapram / 1024))MB  $f"
+echo -e "$green ##### $white IP:$cyano  $ip ${blue}| $ippublic $f";
+echo -e "$green ##### $white $SYSTEM:$cyano  $(cat /etc/so) $f";
+echo -e "$green ##### $white $USER:$cyano  $USERPROFILENAME $f";
+echo -e $DIVIS
+echo -e "$green $yellow [${blue}i$yellow] $yellow=$f$white $NOTIFICATION $yellow 5         ${blue}/${red}/${green}/ $cyano$about$f";
+echo -e $DIVIS
+echo -e "$green $yellow [${blue}01$yellow] $yellow=$f$white $MENU_INSTALL $f"; 
+echo -e "$green $yellow [${blue}02$yellow] $yellow=$f$white $MANAGE_USERS $f"; 
+echo -e "$green $yellow [${blue}03$yellow] $yellow=$f$white $TOOLS $f"; 
+echo -e "$green $yellow [${blue}04$yellow] $yellow=$f$white $ABOUT $f";
+echo -e "$green $yellow [${blue}00$yellow] $yellow=$f$white $EXIT $f";
+echo -e $DIVIS
+echo -ne "$yellow  Opção:$f";read -p ""  option
+case $option in
+
+i | I ) echo -e "${white}//${yellow}//${green}//${mag}//    ${green}$OP_NOT_DEVELOPED$f";
+$mainmenu;;
+n | net | N | NET) netstat -nlpt
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
+$mainmenu;;
+1 | 01) RDYINSTALL;;
+2 | 02) RDYUSERMANAGER;;
+3 | 03) RDYTOOLS;;
+4 | 04) RDYABOUT;;
+app | APP) RDYSSHCONTROL;;
+00 | 0) exit ;;
+remove_all | r_all ) 
+echo -e "removendo resíduos, isso é ${red}PERIGOSO!$f";
+find /tmp -mtime +7 |\
+    egrep -v "`lsof -n +D /tmp | awk 'NR>1 {print $9}'| tr \\n \|`" & RDYSPINNER
+		echo "concluído!";;
+ *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $mainmenu;;
+   esac
+#######################################################################################
 }
 
 # COMANDOS DIRETOS
