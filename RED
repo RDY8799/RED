@@ -2379,7 +2379,7 @@ apt-get install -y apache2 1> /dev/null 2> /dev/null & RDYSPINNER
 else
 yum install -y apache2 1> /dev/null 2> /dev/null & RDYSPINNER
 fi
-sed -i 's/Listen 80/Listen 81/' /etc/apache2/ports.conf 1> /dev/null 2> /dev/null & RDYSPINNER
+sed -i 's/80/Listen 81/' /etc/apache2/ports.conf 1> /dev/null 2> /dev/null & RDYSPINNER
 sed -i 's/80/81/' /etc/apache2/sites-enabled/000-default.conf 1> /dev/null 2> /dev/null & RDYSPINNER
 fi
 
