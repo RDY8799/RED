@@ -2322,7 +2322,7 @@ echo -e $DIVIS
 echo -e "${blue}INSTALADOR SSH Control - $about $f";
 echo -e $DIVIS
 
-if [ $(dpkg-query -W -f='${Status}' squid 2>/dev/null | grep -c "ok installed") -eq 0 ];
+if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
 echo -e "${white}Apache2 ${red}NÃO ${white}INSTALADO$f";
 APACHESTATUS="NO";
@@ -2330,7 +2330,7 @@ else
 echo -e "${white}Apache2 ${green}OK ${white}INSTALADO$f";
 fi
 
-if  [ $(dpkg-query -W -f='${Status}' squid3 2>/dev/null | grep -c "ok installed") -eq 0 ];
+if  [ $(dpkg-query -W -f='${Status}' php7* 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
 echo -e "${white}PHP ${red}NÃO ${white}INSTALADO$f";
 PHPSTATUS="NO";
