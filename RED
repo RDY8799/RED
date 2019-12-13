@@ -112,7 +112,7 @@ RDYSPINNER()
 	tput civis -- invisible
     while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
         local temp=${spinstr#?}
-        printf " ${yellow}[${mag}%c${red}]$f  " "$spinstr"
+        printf "$about - ${yellow}[${mag}%c${red}]$f  " "$spinstr"
         local spinstr=$temp${spinstr%"$temp"}
         sleep $delay
         printf "\b\b\b\b\b\b"
@@ -2379,16 +2379,18 @@ apt-get install -y apache2 1> /dev/null 2> /dev/null & RDYSPINNER
 else
 yum install -y apache2 1> /dev/null 2> /dev/null & RDYSPINNER
 fi
-sed 's/Listen 80/Listen 81/' /etc/apache2/ports.conf 1> /dev/null 2> /dev/null & RDYSPINNER
-sed 's/80/81/' /etc/apache2/sites-enabled/000-default.conf 1> /dev/null 2> /dev/null & RDYSPINNER
+sed -i 's/Listen 80/Listen 81/' /etc/apache2/ports.conf 1> /dev/null 2> /dev/null & RDYSPINNER
+sed -i 's/80/81/' /etc/apache2/sites-enabled/000-default.conf 1> /dev/null 2> /dev/null & RDYSPINNER
 fi
 
 if [[ "$PHPSTATUS" = 'NO' ]]; then
 
 if [[ "$OS" = 'debian' ]]; then
-apt-get install libssh2-1 php-ssh2 -y && sudo /etc/init.d/apache2 restart 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get install -y php-pear php7.0-dev php7.0-zip php7.0-curl php7.0-gd php7.0-mysql php7.0-mcrypt php7.0-xml libapache2-mod-php7.0 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get install libssh2-1 php-ssh2 -y && /etc/init.d/apache2 restart 1> /dev/null 2> /dev/null & RDYSPINNER
 else
-yum install -y install libssh2-1 php-ssh2 -y && sudo /etc/init.d/apache2 restart 1> /dev/null 2> /dev/null & RDYSPINNER
+yum install -y php-pear php7.0-dev php7.0-zip php7.0-curl php7.0-gd php7.0-mysql php7.0-mcrypt php7.0-xml libapache2-mod-php7.0 1> /dev/null 2> /dev/null & RDYSPINNER
+yum install -y libssh2-1 php-ssh2 -y && /etc/init.d/apache2 restart 1> /dev/null 2> /dev/null & RDYSPINNER
 fi
 
 fi
