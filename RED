@@ -112,7 +112,7 @@ RDYSPINNER()
 	tput civis -- invisible
     while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
         local temp=${spinstr#?}
-        printf "$about - ${yellow}[${mag}%c${red}]$f  " "$spinstr"
+        printf "${yellow}[${mag}%c${red}]$f  " "$spinstr"
         local spinstr=$temp${spinstr%"$temp"}
         sleep $delay
         printf "\b\b\b\b\b\b"
@@ -2402,7 +2402,8 @@ fi
 rm /bin/nuser.sh* 1> /dev/null 2> /dev/null & RDYSPINNER
 rm /var/www/html/file.php* 1> /dev/null 2> /dev/null & RDYSPINNER
 wget -P /var/www/html https://raw.githubusercontent.com/RDY8799/RED/master/file.php 1> /dev/null 2> /dev/null & RDYSPINNER
-wget -P /var/www/html https://raw.githubusercontent.com/RDY8799/RED/master/nuser.sh 1> /dev/null 2> /dev/null & RDYSPINNER
+wget -P /bin https://raw.githubusercontent.com/RDY8799/RED/master/nuser.sh 1> /dev/null 2> /dev/null & RDYSPINNER
+chmod +x /bin/nuser.sh 1> /dev/null 2> /dev/null & RDYSPINNER
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}CONFIGURAÇÃO CONCLUÍDA COM ${green}SUCESSO!$f";
 echo "";
