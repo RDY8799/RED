@@ -2328,6 +2328,7 @@ echo -e "${white}Apache2 ${red}NÃO ${white}INSTALADO$f";
 APACHESTATUS="NO";
 else
 echo -e "${white}Apache2 ${green}OK ${white}INSTALADO$f";
+APACHESTATUS="YES";
 fi
 
 if  [ $(dpkg-query -W -f='${Status}' php7* 2>/dev/null | grep -c "ok installed") -eq 0 ];
@@ -2336,12 +2337,13 @@ echo -e "${white}PHP ${red}NÃO ${white}INSTALADO$f";
 PHPSTATUS="NO";
 else
 echo -e "${white}PHP ${green}OK ${white}INSTALADO$f";
+PHPSTATUS="YES";
 fi
 
 if [[ "$APACHESTATUS" = 'NO' || "$PHPSTATUS" = 'NO' ]]; then
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${green}Não foi identificado que todos os recursos necessários estão instalados!$f";
-
+echo "";
 echo -ne "${blue}//${green} CONTINUAR COM A INSTALAÇÃO?[S/N]$f"; read -p ": " SN
 if [[ "$SN" = 'v' ]]; then
 read -p "Quer mesmo voltar? [S/N]: " esco
@@ -2379,7 +2381,7 @@ apt-get install -y apache2 1> /dev/null 2> /dev/null & RDYSPINNER
 else
 yum install -y apache2 1> /dev/null 2> /dev/null & RDYSPINNER
 fi
-sed -i 's/80/Listen 81/' /etc/apache2/ports.conf 1> /dev/null 2> /dev/null & RDYSPINNER
+sed -i 's/80/81/' /etc/apache2/ports.conf 1> /dev/null 2> /dev/null & RDYSPINNER
 sed -i 's/80/81/' /etc/apache2/sites-enabled/000-default.conf 1> /dev/null 2> /dev/null & RDYSPINNER
 fi
 
@@ -2387,11 +2389,13 @@ if [[ "$PHPSTATUS" = 'NO' ]]; then
 
 if [[ "$OS" = 'debian' ]]; then
 apt-get install -y php-pear php7.0-dev php7.0-zip php7.0-curl php7.0-gd php7.0-mysql php7.0-mcrypt php7.0-xml libapache2-mod-php7.0 1> /dev/null 2> /dev/null & RDYSPINNER
-apt-get install libssh2-1 php-ssh2 -y && /etc/init.d/apache2 restart 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get install libssh2-1 php-ssh2 -y 1> /dev/null 2> /dev/null & RDYSPINNER
 else
 yum install -y php-pear php7.0-dev php7.0-zip php7.0-curl php7.0-gd php7.0-mysql php7.0-mcrypt php7.0-xml libapache2-mod-php7.0 1> /dev/null 2> /dev/null & RDYSPINNER
-yum install -y libssh2-1 php-ssh2 -y && /etc/init.d/apache2 restart 1> /dev/null 2> /dev/null & RDYSPINNER
+yum install -y libssh2-1 php-ssh2 -y restart 1> /dev/null 2> /dev/null & RDYSPINNER
 fi
+
+/etc/init.d/apache2 restart 1> /dev/null 2> /dev/null & RDYSPINNER
 
 fi
 
@@ -2415,7 +2419,8 @@ echo -e "${red} CANCELADO! $f";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
 RDYMENU
 fi
-
+else
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
 fi
 
 }
