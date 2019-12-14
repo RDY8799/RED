@@ -129,7 +129,7 @@ RED
 fi
 
 PORTCHECK(){
-if ! lsof -i:$1 > /dev/null
+if [ ! lsof -i:$1 > /dev/null ];
 then
     PORTFINAL=$1
 else
@@ -280,6 +280,21 @@ MTPROXYINFO="${white}MTPROTO ${green}INSTALADO$f";
 MTPROXYSTATUS="YES";
 MTPROXYSTATUSS="${green}°$f"
 fi
+
+PORTTEST(){
+
+SERVER=$1 
+PORT=$2
+state=`nmap -p $PORT $SERVER | grep "$PORT" | grep open`
+
+if [ -z "$state" ]; 
+then 
+echo "${red}Connection to $SERVER on port $PORT has failed$f";
+else 
+echo -e "${green}Connection to $SERVER on port $PORT was successful$f"; 
+fi
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...$f"; read -n1 -r -p "";
+}
 
 RDYSQUIDPROXY(){
 clear
@@ -2547,6 +2562,9 @@ $mainmenu;;
 res | reinstall) REINSTALL;;
 update | up | UP) UP;;
 app | APP) RDYSSHCONTROL;;
+pt | pottest) read -p "Host: " host 
+read -p "Port: " port
+PORTTEST $host $port;;
 00 | 0) exit ;;
 remove_all | r_all ) 
 echo -e "removendo resíduos, isso é ${red}PERIGOSO!$f";
