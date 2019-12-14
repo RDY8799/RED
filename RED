@@ -93,6 +93,12 @@ fi
 
 }
 
+UP(){
+echo baixando novamente...
+rm /bin/RED* 2> /dev/null & RDYSPINNER
+wget -P /bin https://raw.githubusercontent.com/RDY8799/RED/master/RED && chmod +x /bin/RED && RED
+}
+
 REINSTALL(){
 if [[ "$OS" = 'debian' ]]; then
 apt-get install figlet -y 1> /dev/null 2> /dev/null & RDYSPINNER
@@ -2507,6 +2513,8 @@ $mainmenu;;
 2 | 02) RDYUSERMANAGER;;
 3 | 03) RDYTOOLS;;
 4 | 04) RDYABOUT;;
+res | reinstall) REINSTALL;;
+update | up | UP) UP;;
 app | APP) RDYSSHCONTROL;;
 00 | 0) exit ;;
 remove_all | r_all ) 
