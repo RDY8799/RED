@@ -62,17 +62,17 @@ fi
 
 UPDATE(){
 
-set -e
-cd Home=$PWD
-reqSpace=100000000
-SPACE=df "$Home" | awk 'END{print $4}'
-if [[ $SPACE -le reqSpace ]]
-then
-echo -e "Não há espaço suficiente para executar esta ação.\nPrecizamos de no mínimo 100mb de espaço disponível.";
-df -h
-echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...$f"; read -n1 -r -p "";
-RED
-else
+#set -e
+#cd Home=$PWD
+#reqSpace=100000000
+#SPACE=df "$Home" | awk 'END{print $4}'
+#if [[ $SPACE -le reqSpace ]]
+#then
+#echo -e "Não há espaço suficiente para executar esta ação.\nPrecizamos de no mínimo 100mb de espaço disponível.";
+#df -h
+#echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...$f"; read -n1 -r -p "";
+#RED
+#else
 
 if [[ "$OS" = 'debian' ]]; then
 echo "Resolvendo dependências quebradas...";
@@ -89,7 +89,7 @@ echo "Atualizando pacotes...";
 yum update -y 1> /dev/null 2> /dev/null & RDYSPINNER
 echo "Instalando...";
 fi
-fi
+#fi
 
 }
 
