@@ -294,6 +294,7 @@ else
 echo -e "${green}Connection to $SERVER on port $PORT was successful$f"; 
 fi
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...$f"; read -n1 -r -p "";
+RED
 }
 
 RDYSQUIDPROXY(){
