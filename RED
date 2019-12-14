@@ -20,7 +20,7 @@ else
 	clear
 	echo -e "$white Você não é root"
 	echo -e "$white Seu usuário está no grupo sudo"
-	echo -e "$white Para tornar-se um usuário root execute $red sudo su$white  ou execute $red sudo $0 $f"
+	echo -e "$white Para tornar-se um usuário root execute ${red}sudo su$white ou execute $red sudo $0 $f"
 	exit
 	else
 	clear
@@ -29,18 +29,108 @@ else
 	fi
 fi
 
+# PROGRESS BAR
+RDYSPINNER(){
+    local pid=$!
+    local delay=0.50
+    local spinstr='/-\|'
+	tput civis -- invisible
+    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+        local temp=${spinstr#?}
+        printf "${yellow}[${mag}%c${red}]$f  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b\b\b"
+    done
+    printf "    \b\b\b\b"
+	tput cnorm -- normal
+}
+
+# TIPO DE SISTEMA
+if [[ -e /etc/debian_version ]]; then
+	OS=debian
+	GROUPNAME=nogroup
+	RCLOCAL='/etc/rc.local'
+elif [[ -e /etc/centos-release || -e /etc/redhat-release ]]; then
+	OS=centos
+	GROUPNAME=nobody
+	RCLOCAL='/etc/rc.d/rc.local'
+else
+	echo "Looks like you aren't running this installer on a Debian, Ubuntu or CentOS system"
+	exit 2
+fi
+
+UPDATE(){
+
+set -e
+cd Home=$PWD
+reqSpace=100000000
+SPACE=df "$Home" | awk 'END{print $4}'
+if [[ $SPACE -le reqSpace ]]
+then
+echo -e "Não há espaço suficiente para executar esta ação.\nPrecizamos de no mínimo 100mb de espaço disponível.";
+df -h
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...$f"; read -n1 -r -p "";
+RED
+else
+
+if [[ "$OS" = 'debian' ]]; then
+echo "Resolvendo dependências quebradas...";
+apt-get install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
+dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
+echo "Atualizando pacotes...";
+apt-get update -y 1> /dev/null 2> /dev/null & RDYSPINNER
+echo "Instalando...";
+else
+echo "Resolvendo dependências quebradas...";
+yum install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
+dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
+echo "Atualizando pacotes...";
+yum update -y 1> /dev/null 2> /dev/null & RDYSPINNER
+echo "Instalando...";
+fi
+fi
+
+}
+
+REINSTALL(){
+if [[ "$OS" = 'debian' ]]; then
+apt-get install figlet -y 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get install toilet -y 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get install nmap -y 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get install lsof -y 1> /dev/null 2> /dev/null & RDYSPINNER
+else
+yum install figlet -y 1> /dev/null 2> /dev/null & RDYSPINNER
+yum install toilet -y 1> /dev/null 2> /dev/null & RDYSPINNER
+yum install nmap -y 1> /dev/null 2> /dev/null & RDYSPINNER
+yum install lsof -y 1> /dev/null 2> /dev/null & RDYSPINNER
+fi
+RED
+}
+
 if [ ! -d /etc/rdy/strings/ ]
 then
 clear
-echo "criando diretório de strings...";
+echo "Criando diretório de strings...";
 mkdir -p /etc/rdy/strings
-echo "baixando arquivo...";
+echo "Baixando dependências...";
+REINSTALL
 wget -P /etc/rdy/strings https://raw.githubusercontent.com/RDY8799/RDY_STRINGS/master/STRINGS.rdy 1> /dev/null 2> /dev/null
 chmod +x /etc/rdy/strings/STRINGS.rdy 1> /dev/null 2> /dev/null
-echo "COMPLETO!!\n(aguarde)";
+echo "COMPLETO!! (aguarde)";
 sleep 3
 RED
 fi
+
+PORTCHECK(){
+if ! lsof -i:$1 > /dev/null
+then
+    PORTFINAL=$1
+else
+	echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}ESTA PORTA JÁ ESTÁ EM USO ${red}$0. ${green}Defina uma outra porta:$f"; read -p "" PORTFIN
+	PORTCHECK $PORTFIN
+fi
+}
 
 ############ Criar pastas de novos longins
 
@@ -103,40 +193,7 @@ swapram=$( cat /proc/meminfo | grep SwapTotal | awk '{print $2}')
 
 RDY_HEADER="$yellow CPU USADA:$cyano$CPU ${blue}|$f$yellow RAM USADA: $cyano$(($usedram / 1024))MB$yellow LIVRE: $cyano$(($freeram / 1024))MB ${blue}|$f$yellow SWAP: $cyano$(($swapram / 1024))MB $f\n$green ##### $white IP:$cyano  $ip $f\n$green ##### $white $SYSTEM:$cyano  $(cat /etc/so) $f\n$green ##### $white $USER:$cyano  $USERPROFILENAME $f\n$DIVIS\n$green $yellow [${blue}i$yellow] $yellow=$f$white $NOTIFICATION $yellow 5         ${blue}/${red}/${green}/ $cyano$about$f\n$DIVIS";
 
-# PROGRESS BAR
-RDYSPINNER()
-{
-    local pid=$!
-    local delay=0.50
-    local spinstr='|/-\'
-	tput civis -- invisible
-    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-        local temp=${spinstr#?}
-        printf "${yellow}[${mag}%c${red}]$f  " "$spinstr"
-        local spinstr=$temp${spinstr%"$temp"}
-        sleep $delay
-        printf "\b\b\b\b\b\b"
-    done
-    printf "    \b\b\b\b"
-	tput cnorm -- normal
-}
-
 mainmenu=RED;
-
-
-# TIPO DE SISTEMA
-if [[ -e /etc/debian_version ]]; then
-	OS=debian
-	GROUPNAME=nogroup
-	RCLOCAL='/etc/rc.local'
-elif [[ -e /etc/centos-release || -e /etc/redhat-release ]]; then
-	OS=centos
-	GROUPNAME=nobody
-	RCLOCAL='/etc/rc.d/rc.local'
-else
-	echo "Looks like you aren't running this installer on a Debian, Ubuntu or CentOS system"
-	exit 2
-fi
 
 # VERIFICAR SE SQUID ESTÁ INSTALADO
 
@@ -184,15 +241,26 @@ STUNNELSTATUS="YES";
 STUNNELSTATUSS="${green}°$f"
 fi
 
-if [ $(dpkg-query -W -f='${Status}' badvpn-udpgw 2>/dev/null | grep -c "ok installed") -eq 0 ];
+#if [ $(dpkg-query -W -f='${Status}' badvpn-udpgw 2>/dev/null | grep -c "ok installed") -eq 0 ];
+#then
+#BADVPNINFO="${white}BADVPN ${red}NÃO ${white}INSTALADO$f";
+#BADVPNSTATUS="NO";
+#else
+#BADVPNINFO="${white}BADVPN ${green}INSTALADO$f";
+#BADVPNSTATUS="YES";
+#BADVPNSTATUSS="${green}°$f"
+#fi
+
+if ! lsof -i:$1 > /dev/null
 then
-BADVPNINFO="${white}BADVPN ${red}NÃO ${white}INSTALADO$f";
-BADVPNSTATUS="NO";
+    BADVPNINFO="${white}BADVPN ${green}INSTALADO$f";
+    BADVPNSTATUS="YES";
+    BADVPNSTATUSS="${green}°$f"
 else
-BADVPNINFO="${white}BADVPN ${green}INSTALADO$f";
-BADVPNSTATUS="YES";
-BADVPNSTATUSS="${green}°$f"
+	BADVPNINFO="${white}BADVPN ${red}NÃO ${white}INSTALADO$f";
+    BADVPNSTATUS="NO";
 fi
+
 
 if [ -f "/etc/rdy/secret" ]; then 
 MTPROXYINFO="${white}MTPROTO ${red}NÃO ${white}INSTALADO$f";
@@ -304,9 +372,10 @@ http_access allow ip" > /etc/squid*/squid.conf
 elif [[ "$PORTSQUID" = '3128' ]]; then
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}3128 ${blue}JÁ DEFINIDA.$f";
 else
-echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}$PORTSQUID ${blue}DEFINIDA.$f";
+PORTCHECK $PORTSQUID
+echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}$PORTFINAL ${blue}DEFINIDA.$f";
 squidconf1(){
-echo "http_port $PORTSQUID
+echo "http_port $PORTFINAL
 http_port 3128
 visible_hostname RDYSOFTWARE
 acl ip dstdomain $IPQ
@@ -346,11 +415,8 @@ telegram.me/rdysoftware" > /etc/rdy/payloads
 payloads
 
 if [[ "$OS" = 'debian' ]]; then
-apt-get install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
-dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
-apt-get update -y 1> /dev/null 2> /dev/null & RDYSPINNER
+UPDATE
 apt-get install -y squid3 1> /dev/null 2> /dev/null & RDYSPINNER
-apt-get install figlet -y 1> /dev/null 2> /dev/null & RDYSPINNER
 service ssh restart 1> /dev/null 2> /dev/null & RDYSPINNER
 else
 yum install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
@@ -496,14 +562,10 @@ echo "";
 echo -e "${white}//${yellow}//${green}//${mag}//    ${mag}Pressione uma tecla para iniciar...$f"; read -n1 -r -p "";
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}INICIANDO INSTALAÇÃO ${green}AGUARDE...$f";
 if [[ "$OS" = 'debian' ]]; then
-apt-get install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
-dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
-apt-get update > /dev/null 2> /dev/null  & RDYSPINNER
+UPDATE
 apt-get install dropbear > /dev/null 2> /dev/null  & RDYSPINNER
 else
-yum install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
-dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
-yum update -y 1> /dev/null 2> /dev/null  & RDYSPINNER
+UPDATE
 yum install dropbear -y 1> /dev/null 2> /dev/null  & RDYSPINNER
 fi
 
@@ -653,18 +715,14 @@ echo "";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${mag}Pressione uma tecla para iniciar...$f"; read -n1 -r -p "";
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}INICIANDO INSTALAÇÃO ${green}AGUARDE...$f";
 if [[ "$OS" = 'debian' ]]; then
-apt-get install -f -y > output.txt #1> /dev/null 2> /dev/null & RDYSPINNER
-dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
-apt-get update -y 1> /dev/null 2> /dev/null  & RDYSPINNER
-apt-get install sslh -y > output.txt  #1> /dev/null 2> /dev/null  & RDYSPINNER
+UPDATE
+apt-get install sslh -y #> output.txt  #1> /dev/null 2> /dev/null  & RDYSPINNER
 else
-yum install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
-dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
-yum update -y 1> /dev/null 2> /dev/null  & RDYSPINNER
+UPDATE
 yum install sslh -y 1> /dev/null 2> /dev/null  & RDYSPINNER
 fi
 
-rm /etc/default/sslh
+rm /etc/default/sslh 1> /dev/null 2> /dev/null  & RDYSPINNER
 echo "RUN=yes" > /etc/default/sslh
 echo "DAEMON=/usr/sbin/sslh" >> /etc/default/sslh
 
@@ -677,8 +735,9 @@ elif [[ "$PORTSSLH" = '22' ]]; then
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}22 ${blue}JÁ DEFINIDA PARA SSH.$f";
 echo 'DAEMON_OPTS="--user sslh --listen 0.0.0.0:443 --ssh 127.0.0.1:22 --http 127.0.0.1:80 --ssl 127.0.0.1:4433 --openvpn 127.0.0.1:1194 --pidfile /var/run/sslh/sslh.pid --timeout 5"' >> /etc/default/sslh
 else
-echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}$PORTDROP ${blue}DEFINIDA.$f";
-echo 'DAEMON_OPTS='"--user sslh --listen 0.0.0.0:$PORTSSLH --ssh 127.0.0.1:22 --http 127.0.0.1:80 --ssl 127.0.0.1:4433 --openvpn 127.0.0.1:1194 --pidfile /var/run/sslh/sslh.pid --timeout 5"'' >> /etc/default/sslh
+PORTCHECK $PORTDROP
+echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}$PORTFINAL ${blue}DEFINIDA.$f";
+echo 'DAEMON_OPTS='"--user sslh --listen 0.0.0.0:$PORTFINAL --ssh 127.0.0.1:22 --http 127.0.0.1:80 --ssl 127.0.0.1:4433 --openvpn 127.0.0.1:1194 --pidfile /var/run/sslh/sslh.pid --timeout 5"'' >> /etc/default/sslh
 fi
 
 
@@ -806,24 +865,21 @@ echo -e $DIVIS
 
 if [[ "$yesNo" = 's' ]]; then
 echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}VERIFIQUE SE O IP ESTÁ CORRETO $f"; read -p ": " -e -i $findippublic IPQ
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}Defina uma porta HTTP para o DROPBEAR, a porta 4433 já \nvem definida por padrão. Deixe em branco caso não deseje mais alguma porta agora. ${green}Defina uma nova porta:$f"; read -p "" PORTSTUNNEL
+echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}Defina uma porta HTTP para o SSL/TLS, a porta 4433 já \nvem definida por padrão. Deixe em branco caso não deseje mais alguma porta agora. ${green}Defina uma nova porta:$f"; read -p "" PORTSTUNNEL
 echo -e $DIVIS
 
 echo "";
 echo -e "${white}//${yellow}//${green}//${mag}//    ${mag}Pressione uma tecla para iniciar...$f"; read -n1 -r -p "";
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}INICIANDO INSTALAÇÃO ${green}AGUARDE...$f";
 if [[ "$OS" = 'debian' ]]; then
-apt-get install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
-dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
-apt-get update -y 1> /dev/null 2> /dev/null  & RDYSPINNER
+UPDATE
 apt-get install stunnel -y 1> /dev/null 2> /dev/null  & RDYSPINNER
 apt-get install stunnel4 -y 1> /dev/null 2> /dev/null  & RDYSPINNER
 apt-get install openssh-client -y 1> /dev/null 2> /dev/null  & RDYSPINNER
 apt-get install curl -y 1> /dev/null 2> /dev/null  & RDYSPINNER
 apt-get install openssh-server -y 1> /dev/null 2> /dev/null  & RDYSPINNER
 else
-yum install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
-dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
+UPDATE
 yum install openssh-server -y 1> /dev/null 2> /dev/null  & RDYSPINNER
 yum install openssh-client -y 1> /dev/null 2> /dev/null  & RDYSPINNER
 yum install stunnel4 -y 1> /dev/null 2> /dev/null  & RDYSPINNER
@@ -833,9 +889,9 @@ echo -e "${white}//${yellow}//${green}//${mag}//    ${green}GERANDO CERTIFICADO.
 print "BRASIL\nRDY LANDIA\nPURECITY\nCopyright RDY SOFTWARE 2018\nRdy Software\nt.me/rdysoftware\nrdysoftware@gmail.com\n" | openssl genrsa 2048 > stunnel.key
 openssl req -new -key stunnel.key -x509 -days 1000 -out stunnel.crt
 
-rm /etc/stunnel/stunnel.conf
-rm /etc/default/stunnel4
-cat stunnel.crt stunnel.key > stunnel.pem 
+rm /etc/stunnel/stunnel.conf 1> /dev/null 2> /dev/null  & RDYSPINNER
+rm /etc/default/stunnel4 1> /dev/null 2> /dev/null  & RDYSPINNER
+cat stunnel.crt stunnel.key > stunnel.pem
 mv stunnel.pem /etc/stunnel/
 
 if [[ "$PORTSTUNNEL" = '' ]]; then
@@ -858,11 +914,12 @@ echo "cert = /etc/stunnel/stunnel.pem " >> /etc/stunnel/stunnel.conf
 echo "accept = 4433 " >> /etc/stunnel/stunnel.conf
 PORTSTUNNEL="4433";
 else
-echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}$PORTSTUNNEL ${blue}DEFINIDA.$f";
+PORTCHECK $PORTSTUNNEL
+echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}$PORTFINAL ${blue}DEFINIDA.$f";
 echo "client = no " >> /etc/stunnel/stunnel.conf
 echo "[squid] " >> /etc/stunnel/stunnel.conf
 echo "cert = /etc/stunnel/stunnel.pem " >> /etc/stunnel/stunnel.conf
-echo "accept = $PORTSTUNNEL " >> /etc/stunnel/stunnel.conf
+echo "accept = $PORTFINAL " >> /etc/stunnel/stunnel.conf
 
 fi
 
@@ -995,10 +1052,8 @@ echo -e $DIVIS
 echo "";
 echo -e "${white}//${yellow}//${green}//${mag}//    ${mag}Pressione uma tecla para iniciar...$f"; read -n1 -r -p "";
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}INICIANDO INSTALAÇÃO ${green}AGUARDE...$f";
+UPDATE
 if [[ "$OS" = 'debian' ]]; then
-apt-get install -f -y > output.txt #1> /dev/null 2> /dev/null & RDYSPINNER
-dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
-apt-get update -y 1> /dev/null 2> /dev/null  & RDYSPINNER
 apt-get install -y gcc 1> /dev/null 2> /dev/null & RDYSPINNER
 apt-get install -y make 1> /dev/null 2> /dev/null & RDYSPINNER
 apt-get install -y g++ 1> /dev/null 2> /dev/null & RDYSPINNER
@@ -1006,9 +1061,6 @@ apt-get install -y openssl 1> /dev/null 2> /dev/null & RDYSPINNER
 apt-get install -y build-essential 1> /dev/null 2> /dev/null & RDYSPINNER
 apt-get install -y cmake 1> /dev/null 2> /dev/null & RDYSPINNER
 else
-yum install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
-dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
-yum update -y 1> /dev/null 2> /dev/null  & RDYSPINNER
 yum install -y gcc 1> /dev/null 2> /dev/null & RDYSPINNER
 yum install -y make 1> /dev/null 2> /dev/null & RDYSPINNER
 yum install -y g++ 1> /dev/null 2> /dev/null & RDYSPINNER
@@ -1073,7 +1125,9 @@ fi
 ###################################################################################
 
 RDYSOCKS(){
-echo ""
+echo "OPÇÃO NÃO DESENVOLVIDA";
+sleep 3
+RED
 }
 
 
@@ -1257,7 +1311,7 @@ RDY_USER=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 6 ; echo)
 RDY_PASSWORD=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 6 ; echo)
 if [ -d /etc/rdy/rdy_test_users ]
 then
-echo ""
+echo "";
 else
 mkdir -p /etc/rdy/rdy_test_users
 fi
@@ -1291,7 +1345,7 @@ RDYUSERMANAGER
 else
 for testus in $(ls /etc/rdy/rdy_test_users |sort |sed 's/.sh//g')
 do
-echo "$testus"
+echo "$testus";
 done
 printf "\n"
 echo -ne "${blue}[1/3]${green}Nome do novo usuario: $f"; read user
@@ -2262,7 +2316,9 @@ find /tmp -mtime +7 |\
 
 RDYABOUT(){
 echo -e $DIVIS
-figlet 'RDY SOFTWARE' -f small
+#figlet 'RDY SOFTWARE' -f small
+
+toilet -F border -F gay "RDYSOFTWARE"
 
 echo -e "\n\n";
 echo -e "${yellow}   //// ${red}// ${green}/  ${yellow}RDY SCRIPT - RED\n${yellow}   //// ${red}// ${green}/  V 1.0.0\n\n${green} Telegram Canal: ${red}@rdysoftware\n${green} Telegram contato: ${red}@tomada$f";
@@ -2499,6 +2555,10 @@ fi
 if [[ $1 == "lamp" ]]; then
         RDYLAMP
         exit 1
+fi
+
+if [[ $1 == "reinstall" ]]; then
+        REINSTALL
 fi
 
 if [[ $1 == "ssh2" ]]; then
