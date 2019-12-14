@@ -101,15 +101,15 @@ wget -P /bin https://raw.githubusercontent.com/RDY8799/RED/master/RED && chmod +
 
 REINSTALL(){
 if [[ "$OS" = 'debian' ]]; then
-apt-get install figlet -y 1> /dev/null 2> /dev/null & RDYSPINNER
-apt-get install toilet -y 1> /dev/null 2> /dev/null & RDYSPINNER
-apt-get install nmap -y 1> /dev/null 2> /dev/null & RDYSPINNER
-apt-get install lsof -y 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get install -y figlet 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get install -y toilet 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get install -y nmap 1> /dev/null 2> /dev/null & RDYSPINNER
+apt-get install -y lsof 1> /dev/null 2> /dev/null & RDYSPINNER
 else
-yum install figlet -y 1> /dev/null 2> /dev/null & RDYSPINNER
-yum install toilet -y 1> /dev/null 2> /dev/null & RDYSPINNER
-yum install nmap -y 1> /dev/null 2> /dev/null & RDYSPINNER
-yum install lsof -y 1> /dev/null 2> /dev/null & RDYSPINNER
+yum install -y figlet 1> /dev/null 2> /dev/null & RDYSPINNER
+yum install -y toilet 1> /dev/null 2> /dev/null & RDYSPINNER
+yum install -y nmap 1> /dev/null 2> /dev/null & RDYSPINNER
+yum install -y lsof 1> /dev/null 2> /dev/null & RDYSPINNER
 fi
 RED
 }
@@ -289,7 +289,7 @@ state=`nmap -p $PORT $SERVER | grep "$PORT" | grep open`
 
 if [ -z "$state" ]; 
 then 
-echo "${red}Connection to $SERVER on port $PORT has failed$f";
+echo -e "${red}Connection to $SERVER on port $PORT has failed$f";
 else 
 echo -e "${green}Connection to $SERVER on port $PORT was successful$f"; 
 fi
