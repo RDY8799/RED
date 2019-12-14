@@ -176,6 +176,10 @@ then
 mkdir -p /etc/rdy/rdy_date
 fi
 
+if [ ! -d /etc/rdy/socks ]
+then
+mkdir -p /etc/rdy/socks
+fi
 #################
 
 about="© ${blue}Copyright ${yellow}RDY ${red}SOFTWARE ${yellow}{${red}}$f ${blue}2019$f"
@@ -1131,9 +1135,24 @@ fi
 ###################################################################################
 
 RDYSOCKS(){
-echo "OPÇÃO NÃO DESENVOLVIDA";
+RDY_HEADER
+if [ ! -e /etc/rdy/socks/proxysocks.py ]
+then
+echo -e "${green}Downloading...$f";
 sleep 3
-RED
+rm /etc/rdy/socks/proxysocks.py* 1> /dev/null 2> /dev/null & RDYSPINNER
+wget -P /etc/rdy/socks https://raw.githubusercontent.com/RDY8799/RED/master/proxysocks.py 1> /dev/null 2> /dev/null & RDYSPINNER
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para iniciar o sockcs..$f"; read -n1 -r -p "";
+echo -e "${green}Starting socks(3 sec.)...$f";
+sleep 3
+chmod a+x /etc/rdy/socks/proxysocks.py && nohup python /etc/rdy/socks/proxysocks.py > /etc/rdy/socks/proxysocks.txt &
+else
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para iniciar o sockcs..$f"; read -n1 -r -p "";
+echo -e "${green}Starting socks(3 sec.)...$f";
+sleep 3
+chmod a+x /etc/rdy/socks/proxysocks.py && nohup python /etc/rdy/socks/proxysocks.py > /etc/rdy/socks/proxysocks.txt &
+fi
+
 }
 
 
@@ -2293,6 +2312,7 @@ echo -e "$green $yellow [${blue}04$yellow] $yellow=$f$white $ADD_REMOVE_HOSTS $f
 echo -e "$green $yellow [${blue}05$yellow] $yellow=$f$white $UPDATE_SYSTEM $f";
 echo -e "$green $yellow [${blue}06$yellow] $yellow=$f$white $SPEEDTEST $f";
 echo -e "$green $yellow [${blue}07$yellow] $yellow=$f$white $REBOOT_SYSTEM $f";
+echo -e "$green $yellow [${blue}08$yellow] $yellow=$f$white CHECK HOST $f";
 echo -e "$green $yellow [${blue}00$yellow] $yellow=$f$white $EXIT $f";
 echo -e $DIVIS
 echo -ne "$yellow  Opção:$f";read -p ""  option
@@ -2309,6 +2329,17 @@ $mainmenu;;
 $mainmenu;;
 4 | 04) RDYADD_REMOVE_HOSTS;;
 5 | 05) RDYUPDATE_SYSTEM;;
+6 | 06) RDYUPDATE_SYSTEM;;
+7 | 07) echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Quer mesmo reinicciar agora? [s/n]:$f"; read -p " " esco
+if [[ "$esco" = 's' ]]; then
+echo -r "${white}//${yellow}//${green}//${mag}//    ${red}Reiniciando e em 5 segundos...$f"
+sleep 5 & RDYSPINNER
+reboot
+else
+RDYTOOLS
+fi
+;;
+8 | 08) RDYUPDATE_SYSTEM;;
 00 | 0) exit ;;
 remove_all | r_all ) 
 echo -e "removendo resíduos, isso é ${red}PERIGOSO!$f";
