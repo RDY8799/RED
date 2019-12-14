@@ -253,12 +253,12 @@ fi
 
 if ! lsof -i:$1 > /dev/null
 then
-    BADVPNINFO="${white}BADVPN ${green}INSTALADO$f";
+    BADVPNINFO="${white}BADVPN ${red}NÃO ${white}INSTALADO$f";
+    BADVPNSTATUS="NO";
+else
+	BADVPNINFO="${white}BADVPN ${green}INSTALADO$f";
     BADVPNSTATUS="YES";
     BADVPNSTATUSS="${green}°$f"
-else
-	BADVPNINFO="${white}BADVPN ${red}NÃO ${white}INSTALADO$f";
-    BADVPNSTATUS="NO";
 fi
 
 
