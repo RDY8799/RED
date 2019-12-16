@@ -1065,7 +1065,7 @@ fi
 00) exit ;;
  *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $mainmenu;;
  esac
-elif if [ ! -f "/usr/local/bin/badvpn-udpgw" ]
+elif [ ! -f "/usr/local/bin/badvpn-udpgw" ]
 then
 echo -e "$BADVPNINFO";
 echo -e $DIVIS
