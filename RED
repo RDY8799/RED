@@ -1016,7 +1016,8 @@ echo -e $DIVIS
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}INSTALADOR BADVPN$f"
 echo -e $DIVIS
-if [[ "$BADVPNSTATUS" = 'YES' ]]; then
+if [ -f "/usr/local/bin/badvpn-udpgw" ]
+then
 service="udpgw";
 if (( $(ps -ef | grep -v grep | grep $service | wc -l) > 0 ))
 then
@@ -1064,7 +1065,7 @@ fi
 00) exit ;;
  *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $mainmenu;;
  esac
-elif [[ "$BADVPNSTATUS" = 'NO' ]]; then
+else
 echo -e "$BADVPNINFO";
 echo -e $DIVIS
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${yellow}CONTINUAR COM A CONFIGURAÇÃO DO BADVPN?$f"; read -p " [s/n]: " -e -i s yesNo
