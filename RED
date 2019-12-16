@@ -261,7 +261,7 @@ fi
 #BADVPNSTATUSS="${green}°$f"
 #fi
 
-if ! lsof -i:700 > /dev/null
+if ! lsof -i:7300 > /dev/null
 then
     BADVPNINFO="${white}BADVPN ${red}NÃO ${white}INSTALADO$f";
     BADVPNSTATUS="NO";
@@ -1029,7 +1029,7 @@ echo -e "$green $yellow [${blue}01$yellow] $yellow=$f$white DESISTALAR BADVPN $f
 echo -e "$green $yellow [${blue}00$yellow] $yellow=$f$white $EXIT $f";
 echo -e $DIVIS
 
-echo -ne "$yellow  Opção:$f";read -p ""  option
+echo -ne "$yellow  Opção:$f"; read -p ""  option
 
 case $option in
 
