@@ -1064,7 +1064,7 @@ fi
 00) exit ;;
  *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $mainmenu;;
  esac
-elif [[ ! -f "/usr/local/bin/badvpn-udpgw" ]]; then
+else #if [[ ! -f "/usr/local/bin/badvpn-udpgw" ]]; then
 echo -e "$BADVPNINFO";
 echo -e $DIVIS
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${yellow}CONTINUAR COM A CONFIGURAÇÃO DO BADVPN?$f"; read -p " [s/n]: " -e -i s yesNo
@@ -1134,10 +1134,10 @@ echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}OPÇÃO INVÁLIDA!$f"
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
 $mainmenu
 fi
-else
-echo -e "${white}//${yellow}//${green}//${mag}//    ${red}OPS! HÁ ALGO DE ERRADO!\n${mag}Favor entrar em contato com seu fornecedor! ${mag}(BADVPN)$f";
-echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
-$mainmenu
+#else
+#echo -e "${white}//${yellow}//${green}//${mag}//    ${red}OPS! HÁ ALGO DE ERRADO!\n${mag}Favor entrar em contato com seu fornecedor! ${mag}(BADVPN)$f";
+#echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
+#$mainmenu
 fi
 }
 
