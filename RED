@@ -1064,7 +1064,7 @@ fi
 00) exit ;;
  *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $mainmenu;;
  esac
-elif [[ -f "/usr/local/bin/badvpn-udpgw" ]]; then
+elif [[ ! -f "/usr/local/bin/badvpn-udpgw" ]]; then
 echo -e "$BADVPNINFO";
 echo -e $DIVIS
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${yellow}CONTINUAR COM A CONFIGURAÇÃO DO BADVPN?$f"; read -p " [s/n]: " -e -i s yesNo
