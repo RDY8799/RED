@@ -2292,20 +2292,25 @@ echo -e "${green} Baixando arquivos necessários... $f";
 wget -P /etc/rdy/python https://raw.githubusercontent.com/RDY8799/RED/master/speedtest.py > /dev/null 2> /dev/null
 chmod 711 /etc/rdy/python/speedtest.py
 fi
-echo -ne "${blue}[START]${green}Iniciar teste[s/n]: $f"; read -p "" vai
+echo -ne "${blue} [START] ${green}Iniciar teste[s/n, v]: $f"; read -p "" vai
 if [[ "$vai" = 'v' ]]; then
 read -p "Quer mesmo voltar? [s/n]: " esco
 if [[ "$esco" = 's' ]]; then
 RDYTOOLS
+elif [[ "$esco" = 'n' ]]; then
+RDYSPEEDTEST
 fi
-fi
+elif [[ "$vai" = 's' ]]; then
 ping=$(ping -c1 google.com |awk '{print $8 $9}' |grep -v loss |cut -d = -f2 |sed ':a;N;s/\n//g;ta')
+velo=$(/etc/rdy/python/speedtest.py |grep load:)
 echo ""
 echo -e "${white}//${yellow}//${green}//${mag}//    ${green} $ping $f";
-velo=$(/etc/rdy/python/speedtest.py |grep load:)
-echo -e "${white}//${yellow}//${green}//${mag}//    ${green} $velo";
+echo -e "${white}//${yellow}//${green}//${mag}//    ${green} $velo$f";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
 RDYTOOLS
+else
+RDYTOOLS
+fi
 
 }
 
