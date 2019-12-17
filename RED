@@ -2304,8 +2304,8 @@ elif [[ "$vai" = 's' ]]; then
 ping=$(ping -c1 google.com |awk '{print $8 $9}' |grep -v loss |cut -d = -f2 |sed ':a;N;s/\n//g;ta')
 velo=$(/etc/rdy/python/speedtest.py |grep load:)
 echo ""
-echo -e "${white}//${yellow}//${green}//${mag}//    ${green} $ping $f";
-echo -e "${white}//${yellow}//${green}//${mag}//    ${green} $velo$f";
+echo -e "${green}Ping: $ping $f";
+echo -e "${green} $velo$f";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
 RDYTOOLS
 else
