@@ -2279,11 +2279,39 @@ fi
 
 }
 
+RDYSPEEDTEST(){
+clear
+echo -e $RDYHEADER
+echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO${blue}/${mag}SPEED TEST$f                    $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
+echo -e $DIVIS
+
+echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}SETUP SPEED TEST$f"
+
+if [ ! -e "/etc/rdy/speedtest.py" ] ; then
+echo -e "${green} Baixando arquivos necessários... $f"
+wget -P /etc/rdy https://raw.githubusercontent.com/RDY8799/Rdy-Python-Socks-5-Files/master/speedtest.py > /dev/null 2> /dev/null
+chmod 711 /etc/rdy/speedtest.py
+fi
+echo -ne "${blue}[START]${green}Iniciar teste[s/n]: $f"; read -p "" vai
+if [[ "$vai" = 'v' ]]; then
+read -p "Quer mesmo voltar? [s/n]: " esco
+if [[ "$esco" = 's' ]]; then
+RDYTOOLS
+fi
+ping=$(ping -c1 google.com |awk '{print $8 $9}' |grep -v loss |cut -d = -f2 |sed ':a;N;s/\n//g;ta')
+echo ""
+echo -e "${white}//${yellow}//${green}//${mag}//    ${green} $ping $f";
+velo=$(speedtest.py |grep load:)
+echo -e "${white}//${yellow}//${green}//${mag}//    ${green} $velo";
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
+RDYTOOLS
+
+}
+
 
    
 RDYTOOLS(){
 clear
-echo -e $DIVIS
 
 echo -e $RDYHEADER
 echo -e "$green $yellow [${blue}i$yellow] $yellow=$f$white $NOTIFICATION $yellow 5         ${blue}/${red}/${green}/ $cyano$about$f";
@@ -2312,7 +2340,7 @@ $mainmenu;;
 $mainmenu;;
 4 | 04) RDYADD_REMOVE_HOSTS;;
 5 | 05) RDYUPDATE_SYSTEM;;
-6 | 06) RDYUPDATE_SYSTEM;;
+6 | 06) RDYSPEEDTEST;;
 7 | 07) echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Quer mesmo reinicciar agora? [s/n]:$f"; read -p " " esco
 if [[ "$esco" = 's' ]]; then
 echo -r "${white}//${yellow}//${green}//${mag}//    ${red}Reiniciando e em 5 segundos...$f"
