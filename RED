@@ -1072,7 +1072,7 @@ echo -e $DIVIS
 
 
 if [[ "$yesNo" = 's' ]]; then
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}A porta 7300 já \nvem definida por padrão na configuração  BADVPN.$f";
+echo -e "${white}(${mag}<${green}i${mag}>${white})    ${blue}A porta 7300 já \nvem definida por padrão na configuração  BADVPN.$f";
 echo -e $DIVIS
 
 echo "";
@@ -1184,7 +1184,7 @@ echo -e $DIVIS
 echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO$f                           $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
 echo -e $DIVIS
 echo -e "$green $yellow [${blue}01$yellow] $yellow=$f$white SSLH $SSLHSTATUSS $f"; 
-echo -e "$green $yellow [${blue}02$yellow] $yellow=$f$white BADVPN $STUNNELSTATUSS $f";
+echo -e "$green $yellow [${blue}02$yellow] $yellow=$f$white BADVPN $BADVPNSTATUSS $f";
 echo -e "$green $yellow [${blue}03$yellow] $yellow=$f$white SQUID PROXY $SQUIDSTATUSS $f";
 echo -e "$green $yellow [${blue}04$yellow] $yellow=$f$white DROPBEAR $DROPSTATUSS $f"; 
 echo -e "$green $yellow [${blue}05$yellow] $yellow=$f$white OPENVPN $OPENSTATUSS $f"; 
@@ -2384,6 +2384,7 @@ $mainmenu
 
 RDYSSHCONTROL(){
 clear
+RDY_HEADER
 echo -e $DIVIS
 figlet 'SSH Control' -f small
 echo -e $DIVIS
