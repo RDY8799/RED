@@ -1151,7 +1151,7 @@ fi
 ###################################################################################
 
 RDYSOCKS(){
-RDY_HEADER
+echo -e "$RDY_HEADER";
 if [ ! -e /etc/rdy/socks/proxysocks.py ]
 then
 echo -e "${green}Downloading...$f";
@@ -2384,7 +2384,7 @@ $mainmenu
 
 RDYSSHCONTROL(){
 clear
-RDY_HEADER
+echo -e "$RDY_HEADER";
 echo -e $DIVIS
 figlet 'SSH Control' -f small
 echo -e $DIVIS
