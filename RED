@@ -1000,9 +1000,9 @@ if [[ -f "/usr/local/bin/badvpn-udpgw" ]]; then
 service="udpgw";
 if (( $(ps -ef | grep -v grep | grep $service | wc -l) > 0 ))
 then
-echo -ne "$green $yellow [${blue}p$yellow] $yellow=$f$white $STOPSERVICE $f"; echo -e "$BADVPNINFO";
+echo -ne "$green $yellow [${blue}p$yellow] $yellow=$f$white $STOPSERVICE $f"; echo -e "${red}BADVPN DESLIGADO$f";
 else
-echo -ne "$green $yellow [${blue}s$yellow] $yellow=$f$white $STARTSERVICE $f"; echo -e "$BADVPNINFO";
+echo -ne "$green $yellow [${blue}s$yellow] $yellow=$f$white $STARTSERVICE $f"; echo -e "${green}BADVPN ATIVO$f";
 fi
 echo -e $DIVIS
 echo -e "$green $yellow [${blue}01$yellow] $yellow=$f$white DESISTALAR BADVPN $f"; 
@@ -1018,7 +1018,7 @@ p | P ) kill -9 $(ps -ef | grep badvpn | awk '{print $2}') > /dev/null 2> /dev/n
 echo -e "${white}//${yellow}//${green}//${mag}//    ${red}(STOP) ${blue}OPERAÇÃO ${green}CONCLUÍDA!$f";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...$f"; read -n1 -r -p "";
 RDYBADVPN ;;
-s | S ) badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10 > /dev/null & RDYSPINNER
+s | S ) screen -dm badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10
 echo -e "${white}//${yellow}//${green}//${mag}//    ${red}(START) ${blue}OPERAÇÃO ${green}CONCLUÍDA!$f";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...$f"; read -n1 -r -p "";
 RDYBADVPN ;;
