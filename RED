@@ -178,9 +178,9 @@ then
 mkdir -p /etc/rdy/rdy_date
 fi
 
-if [ ! -d /etc/rdy/socks ]
+if [ ! -d /etc/rdy/python ]
 then
-mkdir -p /etc/rdy/socks
+mkdir -p /etc/rdy/python
 fi
 #################
 
@@ -1136,17 +1136,17 @@ if [ ! -e /etc/rdy/socks/proxysocks.py ]
 then
 echo -e "${green}Downloading...$f";
 sleep 3
-rm /etc/rdy/socks/proxysocks.py* 1> /dev/null 2> /dev/null & RDYSPINNER
-wget -P /etc/rdy/socks https://raw.githubusercontent.com/RDY8799/RED/master/proxysocks.py 1> /dev/null 2> /dev/null & RDYSPINNER
+rm /etc/rdy/python/proxysocks.py* 1> /dev/null 2> /dev/null & RDYSPINNER
+wget -P /etc/rdy/python https://raw.githubusercontent.com/RDY8799/RED/master/proxysocks.py 1> /dev/null 2> /dev/null & RDYSPINNER
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para iniciar o sockcs..$f"; read -n1 -r -p "";
 echo -e "${green}Starting socks(3 sec.)...$f";
 sleep 3
-chmod a+x /etc/rdy/socks/proxysocks.py && nohup python /etc/rdy/socks/proxysocks.py > /etc/rdy/socks/proxysocks.txt &
+chmod a+x /etc/rdy/python/proxysocks.py && nohup python /etc/rdy/python/proxysocks.py > /etc/rdy/python/proxysocks.txt &
 else
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para iniciar o sockcs..$f"; read -n1 -r -p "";
 echo -e "${green}Starting socks(3 sec.)...$f";
 sleep 3
-chmod a+x /etc/rdy/socks/proxysocks.py && nohup python /etc/rdy/socks/proxysocks.py > /etc/rdy/socks/proxysocks.txt &
+chmod a+x /etc/rdy/python/proxysocks.py && nohup python /etc/rdy/python/proxysocks.py > /etc/rdy/python/proxysocks.txt &
 RDYINSTALL
 fi
 
@@ -2287,10 +2287,10 @@ echo -e $DIVIS
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}SETUP SPEED TEST$f"
 
-if [ ! -e "/etc/rdy/speedtest.py" ] ; then
+if [ ! -e "/etc/rdy/python/speedtest.py" ] ; then
 echo -e "${green} Baixando arquivos necessários... $f"
-wget -P /etc/rdy https://raw.githubusercontent.com/RDY8799/Rdy-Python-Socks-5-Files/master/speedtest.py > /dev/null 2> /dev/null
-chmod 711 /etc/rdy/speedtest.py
+wget -P /etc/rdy/python https://raw.githubusercontent.com/RDY8799/RED/master/speedtest.py > /dev/null 2> /dev/null
+chmod 711 /etc/rdy/python/speedtest.py
 fi
 echo -ne "${blue}[START]${green}Iniciar teste[s/n]: $f"; read -p "" vai
 if [[ "$vai" = 'v' ]]; then
