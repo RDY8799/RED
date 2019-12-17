@@ -2282,7 +2282,7 @@ fi
 RDYSPEEDTEST(){
 clear
 echo -e $RDYHEADER
-echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO${blue}/${mag}SPEED TEST$f                    $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
+echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO${blue}/${mag}SPEED TEST$f                 $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
 echo -e $DIVIS
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}SETUP SPEED TEST$f"
