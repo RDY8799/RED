@@ -2288,7 +2288,7 @@ echo -e $DIVIS
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}SETUP SPEED TEST$f"
 
 if [ ! -e "/etc/rdy/python/speedtest.py" ] ; then
-echo -e "${green} Baixando arquivos necessários... $f"
+echo -e "${green} Baixando arquivos necessários... $f";
 wget -P /etc/rdy/python https://raw.githubusercontent.com/RDY8799/RED/master/speedtest.py > /dev/null 2> /dev/null
 chmod 711 /etc/rdy/python/speedtest.py
 fi
@@ -2297,6 +2297,7 @@ if [[ "$vai" = 'v' ]]; then
 read -p "Quer mesmo voltar? [s/n]: " esco
 if [[ "$esco" = 's' ]]; then
 RDYTOOLS
+fi
 fi
 ping=$(ping -c1 google.com |awk '{print $8 $9}' |grep -v loss |cut -d = -f2 |sed ':a;N;s/\n//g;ta')
 echo ""
