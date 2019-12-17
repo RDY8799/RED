@@ -2282,7 +2282,7 @@ fi
 RDYSPEEDTEST(){
 clear
 echo -e $RDYHEADER
-echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO${blue}/${mag}SPEED TEST$f                 $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
+echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO${blue}/${mag}SPEED TEST$f                $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
 echo -e $DIVIS
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}SETUP SPEED TEST$f"
@@ -2305,7 +2305,7 @@ ping=$(ping -c1 google.com |awk '{print $8 $9}' |grep -v loss |cut -d = -f2 |sed
 velo=$(/etc/rdy/python/speedtest.py |grep load:)
 echo ""
 echo -e "${green}Ping: $ping $f";
-echo -e "${green} $velo$f";
+echo -e "${green}$velo$f";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
 RDYTOOLS
 else
