@@ -201,7 +201,10 @@ usedram=$(free | grep Mem | awk '{print $3}')
 freeram=$(free | grep Mem | awk '{print $4}')
 swapram=$( cat /proc/meminfo | grep SwapTotal | awk '{print $2}')
 
-RDY_HEADER="$yellow CPU USADA:$cyano$CPU ${blue}|$f$yellow RAM USADA: $cyano$(($usedram / 1024))MB$yellow LIVRE: $cyano$(($freeram / 1024))MB ${blue}|$f$yellow SWAP: $cyano$(($swapram / 1024))MB $f\n$green ##### $white IP:$cyano  $ip $f\n$green ##### $white $SYSTEM:$cyano  $(cat /etc/so) $f\n$green ##### $white $USER:$cyano  $USERPROFILENAME $f\n$DIVIS\n$green $yellow [${blue}i$yellow] $yellow=$f$white $NOTIFICATION $yellow 5         ${blue}/${red}/${green}/ $cyano$about$f\n$DIVIS";
+RDY_HEADER="$yellow CPU USADA:$cyano$CPU ${blue}|$f$yellow 
+RAM USADA: $cyano$(($usedram / 1024))MB$yellow LIVRE: $cyano$(($freeram / 1024))MB ${blue}|$f$yellow 
+SWAP: $cyano$(($swapram / 1024))MB $f\n$green ##### $white IP:$cyano  $ip $f\n$green ##### $white $SYSTEM:$cyano  $(cat /etc/so) $f\n$green 
+##### $white $USER:$cyano  $USERPROFILENAME $f\n$DIVIS\n$green $yellow [${blue}i$yellow] $yellow=$f$white $NOTIFICATION $yellow 5         ${blue}/${red}/${green}/ $cyano$about$f\n$DIVIS";
 
 mainmenu=RED;
 
@@ -2384,7 +2387,7 @@ $mainmenu
 
 RDYSSHCONTROL(){
 clear
-echo -e "$RDY_HEADER";
+echo -e $RDY_HEADER
 echo -e $DIVIS
 figlet 'SSH Control' -f small
 echo -e $DIVIS
