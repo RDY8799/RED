@@ -75,19 +75,20 @@ UPDATE(){
 #else
 
 if [[ "$OS" = 'debian' ]]; then
-echo "Resolvendo dependências quebradas...";
+echo -e "${green}Resolvendo dependências quebradas...$f";
 apt-get install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
 dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
-echo "Atualizando pacotes...";
+echo -e "${green}Atualizando pacotes...$f";
 apt-get update -y 1> /dev/null 2> /dev/null & RDYSPINNER
-echo "Instalando...";
+echo -e "${green}Instalando...";
 else
-echo "Resolvendo dependências quebradas...";
+echo -e "${green}Resolvendo dependências quebradas...$f";
 yum install -f -y 1> /dev/null 2> /dev/null & RDYSPINNER
 dpkg --configure -a -y 1> /dev/null 2> /dev/null & RDYSPINNER
-echo "Atualizando pacotes...";
+echo -e "${green}Atualizando pacotes...$f";
 yum update -y 1> /dev/null 2> /dev/null & RDYSPINNER
-echo "Instalando...";
+echo -e "${green}Instalando...$f";
+echo ""
 fi
 #fi
 
@@ -100,6 +101,7 @@ wget -P /bin https://raw.githubusercontent.com/RDY8799/RED/master/RED && chmod +
 }
 
 REINSTALL(){
+echo -e "${green}Reinstalando...$f";
 if [[ "$OS" = 'debian' ]]; then
 apt-get install -y figlet 1> /dev/null 2> /dev/null & RDYSPINNER
 apt-get install -y toilet 1> /dev/null 2> /dev/null & RDYSPINNER
@@ -201,7 +203,7 @@ usedram=$(free | grep Mem | awk '{print $3}')
 freeram=$(free | grep Mem | awk '{print $4}')
 swapram=$( cat /proc/meminfo | grep SwapTotal | awk '{print $2}')
 
-RDY_HEADER="$yellow CPU USADA:$cyano$CPU ${blue}|$f$yellow 
+RDYHEADER="$yellow CPU USADA:$cyano$CPU ${blue}|$f$yellow 
 RAM USADA: $cyano$(($usedram / 1024))MB$yellow LIVRE: $cyano$(($freeram / 1024))MB ${blue}|$f$yellow 
 SWAP: $cyano$(($swapram / 1024))MB $f\n$green ##### $white IP:$cyano  $ip $f\n$green ##### $white $SYSTEM:$cyano  $(cat /etc/so) $f\n$green 
 ##### $white $USER:$cyano  $USERPROFILENAME $f\n$DIVIS\n$green $yellow [${blue}i$yellow] $yellow=$f$white $NOTIFICATION $yellow 5         ${blue}/${red}/${green}/ $cyano$about$f\n$DIVIS";
@@ -302,15 +304,10 @@ RED
 
 RDYSQUIDPROXY(){
 clear
-echo -e $DIVIS
-
+echo -e $RDYHEADER
 echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO${blue}/${mag}SQUID PROXY$f               $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
 echo -e $DIVIS
 
-echo -e "$green ##### $white IP:$cyano  $ip $f";
-echo -e "$green ##### $white Sistema:$cyano  $(cat /etc/so) $f";
-echo -e "$green ##### $white USUÁRIO:$cyano  $USERPROFILENAME $f";
-echo -e $DIVIS
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}INSTALADOR SQUID PROXY$f"
 echo -e $DIVIS
@@ -511,13 +508,8 @@ fi
 
 RDYDROPBEAR(){
 clear
-echo -e $DIVIS
+echo -e $RDYHEADER
 echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO${blue}/${mag}DROPBEAR$f                    $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
-echo -e $DIVIS
-
-echo -e "$green ##### $white IP:$cyano  $ip $f";
-echo -e "$green ##### $white Sistema:$cyano  $(cat /etc/so) $f";
-echo -e "$green ##### $white USUÁRIO:$cyano  $USERPROFILENAME $f";
 echo -e $DIVIS
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}INSTALADOR DROPBEAR$f"
@@ -664,14 +656,9 @@ fi
 
 RDYSSLH(){
 clear
-echo -e $DIVIS
-
+echo -e $RDYHEADER
 echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO${blue}/${mag}SSLH$f                      $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
-echo -e $DIVIS
 
-echo -e "$green ##### $white IP:$cyano  $ip $f";
-echo -e "$green ##### $white Sistema:$cyano  $(cat /etc/so) $f";
-echo -e "$green ##### $white USUÁRIO:$cyano  $USERPROFILENAME $f";
 echo -e $DIVIS
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}INSTALADOR SSLH$f"
@@ -817,15 +804,9 @@ fi
 
 RDYSTUNNEL(){
 clear
-echo -e $DIVIS
+echo -e $RDYHEADER
 
 echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO${blue}/${mag}SSL/TLS Stunnel4$f          $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
-echo -e $DIVIS
-
-echo -e "$green ##### $white IP:$cyano  $ip $f";
-echo -e "$green ##### $white Sistema:$cyano  $(cat /etc/so) $f";
-echo -e "$green ##### $white USUÁRIO:$cyano  $USERPROFILENAME $f";
-echo -e $DIVIS
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}INSTALADOR SSL/TLS Stunnel4$f"
 echo -e $DIVIS
@@ -1009,12 +990,8 @@ fi
 
 RDYBADVPN(){
 clear
-echo -e $DIVIS
+echo -e $RDYHEADER
 echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO${blue}/${mag}BADVPN$f                    $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
-echo -e $DIVIS
-echo -e "$green ##### $white IP:$cyano  $ip $f";
-echo -e "$green ##### $white $SYSTEM:$cyano  $(cat /etc/so) $f";
-echo -e "$green ##### $white $USER:$cyano  $USERPROFILENAME $f";
 echo -e $DIVIS
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}INSTALADOR BADVPN$f"
@@ -1036,7 +1013,7 @@ echo -ne "$yellow  Opção:$f"; read -p ""  option
 
 case $option in
 
-v )  $mainmenu ;;
+v )  RDYINSTALL ;;
 p | P ) kill -9 $(ps -ef | grep badvpn | awk '{print $2}') > /dev/null 2> /dev/null & RDYSPINNER
 echo -e "${white}//${yellow}//${green}//${mag}//    ${red}(STOP) ${blue}OPERAÇÃO ${green}CONCLUÍDA!$f";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...$f"; read -n1 -r -p "";
@@ -1135,7 +1112,7 @@ $mainmenu
 else
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}OPÇÃO INVÁLIDA!$f";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
-$mainmenu
+RDYINSTALL
 fi
 #else
 #echo -e "${white}//${yellow}//${green}//${mag}//    ${red}OPS! HÁ ALGO DE ERRADO!\n${mag}Favor entrar em contato com seu fornecedor! ${mag}(BADVPN)$f";
@@ -1154,7 +1131,7 @@ fi
 ###################################################################################
 
 RDYSOCKS(){
-echo -e "$RDY_HEADER";
+echo -e "$RDYHEADER";
 if [ ! -e /etc/rdy/socks/proxysocks.py ]
 then
 echo -e "${green}Downloading...$f";
@@ -1170,6 +1147,7 @@ echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla
 echo -e "${green}Starting socks(3 sec.)...$f";
 sleep 3
 chmod a+x /etc/rdy/socks/proxysocks.py && nohup python /etc/rdy/socks/proxysocks.py > /etc/rdy/socks/proxysocks.txt &
+RDYINSTALL
 fi
 
 }
@@ -1178,12 +1156,7 @@ fi
 # MENU DE OPÇÕES - INSTALAÇÃO
 RDYINSTALL(){
 clear
-echo -e $DIVIS
-echo -e "$green ##### $white IP:$cyano  $ip $f";
-echo -e "$green ##### $white Sistema:$cyano  $(cat /etc/so) $f";
-echo -e "$green ##### $white USUÁRIO:$cyano  $USERPROFILENAME $f";
-echo -e $DIVIS
-
+echo -e $RDYHEADER
 echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO$f                           $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
 echo -e $DIVIS
 echo -e "$green $yellow [${blue}01$yellow] $yellow=$f$white SSLH $SSLHSTATUSS $f"; 
@@ -1910,12 +1883,7 @@ RDYUSERMANAGER
 
 RDYUSERMANAGER(){
 clear
-echo -e $DIVIS
-echo -e "$yellow CPU USADA:$cyano$CPU ${blue}|$f$yellow RAM USADA: $cyano$(($usedram / 1024))MB$yellow LIVRE: $cyano$(($freeram / 1024))MB ${blue}|$f$yellow SWAP: $cyano$(($swapram / 1024))MB  $f"
-echo -e "$green ##### $white IP:$cyano  $ip $f";
-echo -e "$green ##### $white Sistema:$cyano  $(cat /etc/so) $f";
-echo -e "$green ##### $white USUÁRIO:$cyano  $USERPROFILENAME $f";
-echo -e $DIVIS
+echo -e $RDYHEADER
 echo -e "$green $yellow [${blue}i$yellow] $yellow=$f$white Notificações $yellow 5         ${blue}/${red}/${green}/ $cyano$about$f";
 echo -e $DIVIS
 echo -e "$green $yellow />$blue 01 $yellow= $f$white$NEWUSER  $f";
@@ -2317,11 +2285,7 @@ RDYTOOLS(){
 clear
 echo -e $DIVIS
 
-echo -e "$yellow CPU USADA:$cyano$CPU ${blue}|$f$yellow RAM USADA: $cyano$(($usedram / 1024))MB$yellow LIVRE: $cyano$(($freeram / 1024))MB ${blue}|$f$yellow SWAP: $cyano$(($swapram / 1024))MB  $f"
-echo -e "$green ##### $white IP:$cyano  $ip $f";
-echo -e "$green ##### $white $SYSTEM:$cyano  $(cat /etc/so) $f";
-echo -e "$green ##### $white $USER:$cyano  $USERPROFILENAME $f";
-echo -e $DIVIS
+echo -e $RDYHEADER
 echo -e "$green $yellow [${blue}i$yellow] $yellow=$f$white $NOTIFICATION $yellow 5         ${blue}/${red}/${green}/ $cyano$about$f";
 echo -e $DIVIS
 echo -e "$green $yellow [${blue}01$yellow] $yellow=$f$white $CREATE_BANNER $f"; 
@@ -2387,8 +2351,7 @@ $mainmenu
 
 RDYSSHCONTROL(){
 clear
-echo -e $RDY_HEADER
-echo -e $DIVIS
+echo -e $RDYHEADER
 figlet 'SSH Control' -f small
 echo -e $DIVIS
 echo -e "${blue}INSTALADOR SSH Control - $about $f";
