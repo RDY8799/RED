@@ -2411,7 +2411,7 @@ echo -e "${white}Apache2 ${green}OK ${white}INSTALADO$f";
 APACHESTATUS="YES";
 fi
 
-if  [ $(dpkg-query -W -f='${Status}' php7* 2>/dev/null | grep -c "ok installed") -eq 0 ];
+if  [ $(dpkg-query -W -f='${Status}' php 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
 echo -e "${white}PHP ${red}NÃO ${white}INSTALADO$f";
 PHPSTATUS="NO";
