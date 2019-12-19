@@ -113,7 +113,6 @@ yum install -y toilet 1> /dev/null 2> /dev/null & RDYSPINNER
 yum install -y nmap 1> /dev/null 2> /dev/null & RDYSPINNER
 yum install -y lsof 1> /dev/null 2> /dev/null & RDYSPINNER
 fi
-RED
 }
 
 if [ ! -d /etc/rdy/strings/ ]
@@ -2239,18 +2238,18 @@ mylog 3 "Update apt cache"
 sudo apt-get update >> $logfile & RDYSPINNER
 
 mylog 4 "Atualizando pacotes"
-sudo apt-get upgrade >> $logfile & RDYSPINNER
+sudo apt-get upgrade
 
 mylog 5 "Atualizando versão do SO (Isso pode demorar um pouco)"
-sudo apt-get dist-upgrade >> $logfile
+sudo apt-get dist-upgrade
 clear
 
 mylog 6 "Apagando pacotes não usados"
-sudo apt-get --purge autoremove >> $logfile & RDYSPINNER
+sudo apt-get --purge autoremove
 
 mylog 7 "Finalizando (Clean up)"
-sudo apt-get autoclean >> $logfile & RDYSPINNER
-echo -e "${green} HOST ${mag}$host ${green}PROCESSO CONCLUÍDO!$f"
+sudo apt-get autoclean
+echo -e "$${green}PROCESSO CONCLUÍDO!$f"
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
 $mainmenu
 }
@@ -2320,8 +2319,6 @@ RDYTOOLS(){
 clear
 
 echo -e $RDYHEADER
-echo -e "$green $yellow [${blue}i$yellow] $yellow=$f$white $NOTIFICATION $yellow 5         ${blue}/${red}/${green}/ $cyano$about$f";
-echo -e $DIVIS
 echo -e "$green $yellow [${blue}01$yellow] $yellow=$f$white $CREATE_BANNER $f"; 
 echo -e "$green $yellow [${blue}02$yellow] $yellow=$f$white $CLEARCACHE $f"; 
 echo -e "$green $yellow [${blue}03$yellow] $yellow=$f$white $FIREWALL $f"; 
@@ -2335,19 +2332,19 @@ echo -e $DIVIS
 echo -ne "$yellow  Opção:$f";read -p ""  option
 case $option in
 i | I ) echo -e "${white}//${yellow}//${green}//${mag}//    ${green}$OP_NOT_DEVELOPED$f";
-$mainmenu;;
+RDYTOOLS;;
 v | V | back | BACK | voltar | VOLTAR ) $mainmenu;;
 n | net | N | NET) netstat -nlpt
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
-$mainmenu;;
+RDYTOOLS;;
 1 | 01) RDYBANNER;;
 2 | 02) RDYCLEARCACHE;;
 3 | 03) echo -e "${white}//${yellow}//${green}//${mag}//    ${green}$OP_NOT_DEVELOPED$f"
-$mainmenu;;
+RDYTOOLS;;
 4 | 04) RDYADD_REMOVE_HOSTS;;
 5 | 05) RDYUPDATE_SYSTEM;;
 6 | 06) RDYSPEEDTEST;;
-7 | 07) echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Quer mesmo reinicciar agora? [s/n]:$f"; read -p " " esco
+7 | 07) echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Quer mesmo reiniciar agora? [s/n]:$f"; read -p " " esco
 if [[ "$esco" = 's' ]]; then
 echo -r "${white}//${yellow}//${green}//${mag}//    ${red}Reiniciando e em 5 segundos...$f"
 sleep 5 & RDYSPINNER
@@ -2356,14 +2353,17 @@ else
 RDYTOOLS
 fi
 ;;
-8 | 08) RDYUPDATE_SYSTEM;;
+8 | 08) read -p "Host: " host 
+read -p "Port: " port
+PORTTEST $host $port;;
 00 | 0) exit ;;
 remove_all | r_all ) 
 echo -e "removendo resíduos, isso é ${red}PERIGOSO!$f";
 find /tmp -mtime +7 |\
     egrep -v "`lsof -n +D /tmp | awk 'NR>1 {print $9}'| tr \\n \|`" & RDYSPINNER
-	echo "concluído!";;
- *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $mainmenu;;
+	echo "concluído!"
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";;
+ *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; RDYTOOLS;;
    esac
 
 }
