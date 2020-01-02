@@ -5,7 +5,7 @@ import socket, threading, thread, select, signal, sys, time, getopt
 
 # CONFIG
 LISTENING_ADDR = '0.0.0.0'
-LISTENING_PORT = 80
+LISTENING_PORT = 8799
 PASS = ''
 
 # CONST
@@ -173,7 +173,7 @@ class ConnectionHandler(threading.Thread):
             if self.method == 'CONNECT':
                 port = 22
             else:
-                port = 80
+                port = int(LISTENING_PORT)
 
         (soc_family, soc_type, proto, _, address) = socket.getaddrinfo(host, port)[0]
 
@@ -228,7 +228,7 @@ class ConnectionHandler(threading.Thread):
 def print_usage():
     print('Usage: proxy.py -p <port>')
     print('       proxy.py -b <bindAddr> -p <port>')
-    print('       proxy.py -b 0.0.0.0 -p 80')
+    print("       proxy.py -b 0.0.0.0 -p " + str(LISTENING_PORT))
 
 
 def parse_args(argv):
