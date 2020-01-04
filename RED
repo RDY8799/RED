@@ -389,17 +389,17 @@ echo -e $DIVIS
 if [[ "$yesNo" = 's' ]]; then
 echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}VERIFIQUE SE O IP ESTÁ CORRETO $f"; read -p ": " -e -i $findippublic nsjkbhcb_ip
 echo ''
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}DEFINA UMA PORTA"; read -p ": " -e -i 80 nskajbhvc_port
+echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}DEFINA UMA PORTA$f"; read -p ": " -e -i 80 nskajbhvc_port
 PORTCHECK $nskajbhvc_port
 nskajbhvc_port=$PORTFINAL
 echo ''
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}DEFINA UMA SENHA"; read -p ": " hjsgc_password
+echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}DEFINA UMA SENHA$f"; read -p ": " hjsgc_password
 echo ''
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}TIMEOUT"; read -p ": " -e -i 600 gsadf_timeout
+echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}TIMEOUT$f"; read -p ": " -e -i 600 gsadf_timeout
 echo ''
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}PORTA LOCAL"; read -p ": " -e -i 1080 jbcxh_localport
+echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}PORTA LOCAL$f"; read -p ": " -e -i 1080 jbcxh_localport
 echo ''
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}METÓDO"; read -p ": " -e -i aes-256-cfb sagd_method
+echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}METÓDO$f"; read -p ": " -e -i aes-256-cfb sagd_method
 echo ''
 echo -e $DIVIS
 
@@ -408,8 +408,8 @@ echo -e "${white}//${yellow}//${green}//${mag}//    ${mag}Pressione uma tecla pa
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}INICIANDO INSTALAÇÃO ${green}AGUARDE...$f";
 if [[ "$OS" = 'debian' ]]; then
 UPDATE
-apt-get install -y python-pip python-m2crypto > /dev/null 2> /dev/null  & RDYSPINNER
-pip install -y shadowsocks > /dev/null 2> /dev/null  & RDYSPINNER
+apt-get install -y python-pip python-m2crypto #> /dev/null 2> /dev/null  & RDYSPINNER
+pip install -y shadowsocks #> /dev/null 2> /dev/null  & RDYSPINNER
 else
 UPDATE
 yum install -y python-pip python-m2crypto > /dev/null 2> /dev/null  & RDYSPINNER
@@ -433,7 +433,7 @@ ex -s +%s/jhxghc/$gsadf_timeout/ge -cwq /etc/shadowsocks.json
 ex -s +%s/iahdg/$jbcxh_localport/ge -cwq /etc/shadowsocks.json
 ex -r +%s/hsgdaaas/$sagd_method/ge -cwq /etc/shadowsocks.json
 
-sudo ssserver -c /etc/shadowsocks.json -d start
+sudo ssserver -c /etc/shadowsocks.json -d start /dev/null 2> /dev/null  & RDYSPINNER
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}CONFIGURAÇÃO CONCLUÍDA COM ${green}SUCESSO!$f";
 echo "";
