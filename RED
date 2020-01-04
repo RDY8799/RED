@@ -131,7 +131,7 @@ RED
 fi
 
 PORTCHECK(){
-if [ ! lsof -i:$1 > /dev/null ];
+if ! lsof -i:$1 > /dev/null
 then
     PORTFINAL=$1
 else
