@@ -387,14 +387,14 @@ echo -e $DIVIS
 
 
 if [[ "$yesNo" = 's' ]]; then
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}VERIFIQUE SE O IP ESTÁ CORRETO $f"; read -p ": " -e -i $findippublic nsjkbhcb_ip
+#echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}VERIFIQUE SE O IP ESTÁ CORRETO $f"; read -p ": " -e -i $findippublic nsjkbhcb_ip
 echo ''
 echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}DEFINA UMA PORTA$f"; read -p ": " -e -i 80 nskajbhvc_port
 PORTCHECK $nskajbhvc_port
 nskajbhvc_port=$PORTFINAL
 echo ''
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}DEFINA UMA SENHA$f"; read -p ": " hjsgc_password
-echo ''
+#echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}DEFINA UMA SENHA$f"; read -p ": " hjsgc_password
+#echo ''
 echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}TIMEOUT$f"; read -p ": " -e -i 600 gsadf_timeout
 echo ''
 echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}PORTA LOCAL$f"; read -p ": " -e -i 1080 jbcxh_localport
@@ -426,9 +426,9 @@ echo -e '{
 "method":"hsgdaaas"
 }' > /etc/shadowsocks.json
 
-ex -r +%s/dsvghv/$nsjkbhcb_ip/ge -cwq /etc/shadowsocks.json
+#ex -r +%s/dsvghv/$nsjkbhcb_ip/ge -cwq /etc/shadowsocks.json
 ex -s +%s/hsgvhaV/$nskajbhvc_port/ge -cwq /etc/shadowsocks.json
-ex -r +%s/hsdhsfas/$hjsgc_password/ge -cwq /etc/shadowsocks.json
+#ex -r +%s/hsdhsfas/$hjsgc_password/ge -cwq /etc/shadowsocks.json
 ex -s +%s/jhxghc/$gsadf_timeout/ge -cwq /etc/shadowsocks.json
 ex -s +%s/iahdg/$jbcxh_localport/ge -cwq /etc/shadowsocks.json
 ex -r +%s/hsgdaaas/$sagd_method/ge -cwq /etc/shadowsocks.json
@@ -438,7 +438,8 @@ sudo ssserver -c /etc/shadowsocks.json -d start /dev/null 2> /dev/null  & RDYSPI
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}CONFIGURAÇÃO CONCLUÍDA COM ${green}SUCESSO!$f";
 echo "";
 echo -e "${white}//${yellow}//${green}//${mag}//    ${green} √ ${white} PORTA SHADOWSOCKS:${red}  $PORTFINAL $f"
-echo -e "${white}//${yellow}//${green}//${mag}//    ${green} √ ${white} IP/HOST: ${red} $IPQ$f"
+echo -e "${white}//${yellow}//${green}//${mag}//    ${green} √ ${white} IP/HOST: ${red} $nsjkbhcb_ip$f"
+echo -e "${white}//${yellow}//${green}//${mag}//    ${green} √ ${white} SENHA: ${red} rdy$f";
 echo ""
 echo -e $DIVIS
 exit
