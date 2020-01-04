@@ -107,6 +107,7 @@ apt-get install -y figlet 1> /dev/null 2> /dev/null & RDYSPINNER
 apt-get install -y toilet 1> /dev/null 2> /dev/null & RDYSPINNER
 apt-get install -y nmap 1> /dev/null 2> /dev/null & RDYSPINNER
 apt-get install -y lsof 1> /dev/null 2> /dev/null & RDYSPINNER
+apt autoremove -y 1> /dev/null 2> /dev/null & RDYSPINNER
 else
 yum install -y figlet 1> /dev/null 2> /dev/null & RDYSPINNER
 yum install -y toilet 1> /dev/null 2> /dev/null & RDYSPINNER
@@ -597,7 +598,8 @@ echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}443 ${b
 elif [[ "$PORTDROP" = '22' ]]; then
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}22 ${blue}JÁ DEFINIDA PARA SSH.$f";
 else
-echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}$PORTDROP ${blue}DEFINIDA.$f";
+PORTCHECK $PORTDROP
+echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}$PORTFINAL ${blue}DEFINIDA.$f";
 printf "#loading\nNO_START=0\nDROPBEAR_PORT=$PORTDROP\n" > /etc/default/dropbear
 fi
 
@@ -750,7 +752,7 @@ elif [[ "$PORTSSLH" = '22' ]]; then
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}22 ${blue}JÁ DEFINIDA PARA SSH.$f";
 echo 'DAEMON_OPTS="--user sslh --listen 0.0.0.0:443 --ssh 127.0.0.1:22 --http 127.0.0.1:80 --ssl 127.0.0.1:4433 --openvpn 127.0.0.1:1194 --pidfile /var/run/sslh/sslh.pid --timeout 5"' >> /etc/default/sslh
 else
-PORTCHECK $PORTDROP
+PORTCHECK $PORTSSLH
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}$PORTFINAL ${blue}DEFINIDA.$f";
 echo 'DAEMON_OPTS='"--user sslh --listen 0.0.0.0:$PORTFINAL --ssh 127.0.0.1:22 --http 127.0.0.1:80 --ssl 127.0.0.1:4433 --openvpn 127.0.0.1:1194 --pidfile /var/run/sslh/sslh.pid --timeout 5"'' >> /etc/default/sslh
 fi
