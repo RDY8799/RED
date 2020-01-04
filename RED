@@ -378,8 +378,8 @@ fi
 00) exit ;;
  *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $mainmenu;;
  esac
-elif [[ "$DROPSTATUS" = 'NO' ]]; then
-echo -e "$DROPINFO";
+elif [[ "$SHADOWSOCKSSTATUS" = 'NO' ]]; then
+echo -e "$SHADOWSOCKSINFO";
 echo -e $DIVIS
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}CONTINUAR COM A CONFIGURAÇÃO DO SHADOWSOCKS?$f"; read -p " [s/n]: " -e -i s yesNo
@@ -408,12 +408,12 @@ echo -e "${white}//${yellow}//${green}//${mag}//    ${mag}Pressione uma tecla pa
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}INICIANDO INSTALAÇÃO ${green}AGUARDE...$f";
 if [[ "$OS" = 'debian' ]]; then
 UPDATE
-apt-get install -y python-pip python-m2crypto #> /dev/null 2> /dev/null  & RDYSPINNER
-pip install -y shadowsocks #> /dev/null 2> /dev/null  & RDYSPINNER
+#apt-get install -y python-pip python-m2crypto #> /dev/null 2> /dev/null  & RDYSPINNER
+apt install -y shadowsocks #> /dev/null 2> /dev/null  & RDYSPINNER
 else
 UPDATE
-yum install -y python-pip python-m2crypto > /dev/null 2> /dev/null  & RDYSPINNER
-pip install -y shadowsocks > /dev/null 2> /dev/null  & RDYSPINNER
+#yum install -y python-pip python-m2crypto > /dev/null 2> /dev/null  & RDYSPINNER
+yum install -y shadowsocks > /dev/null 2> /dev/null & RDYSPINNER
 fi
 
 rm /etc/shadowsocks.json  > /dev/null 2> /dev/null
