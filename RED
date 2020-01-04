@@ -441,6 +441,7 @@ echo -e "${white}//${yellow}//${green}//${mag}//    ${green} √ ${white} PORTA 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${green} √ ${white} IP/HOST: ${red} $IPQ$f"
 echo ""
 echo -e $DIVIS
+exit
 
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
 $mainmenu
