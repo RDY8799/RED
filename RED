@@ -238,12 +238,12 @@ fi
 
 if [ $(dpkg-query -W -f='${Status}' shadowsocks 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
-DROPINFO="${white}SHADOWSOCKS ${red}NÃO ${white}INSTALADO$f";
-DROPSTATUS="NO";
+SHADOWSOCKSINFO="${white}SHADOWSOCKS ${red}NÃO ${white}INSTALADO$f";
+SHADOWSOCKSSTATUS="NO";
 else
-DROPINFO="${white}SHADOWSOCKS ${green}INSTALADO$f";
-DROPSTATUS="YES";
-DROPSTATUSS="${green}°$f"
+SHADOWSOCKSINFO="${white}SHADOWSOCKS ${green}INSTALADO$f";
+SHADOWSOCKSSTATUS="YES";
+SHADOWSOCKSSTATUSS="${green}°$f"
 fi
 
 if [ $(dpkg-query -W -f='${Status}' sslh 2>/dev/null | grep -c "ok installed") -eq 0 ];
@@ -319,12 +319,6 @@ RDYSHADOWSOCKS(){
 
 
 
-
-
-
-
-
-
 clear
 echo -e $RDYHEADER
 echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}MENU DE INSTALAÇÃO${blue}/${mag}SHADOWSOCKS$f                    $yellow [${blue}v$yellow] $yellow=$f$white Voltar$f";
@@ -332,13 +326,13 @@ echo -e $DIVIS
 
 echo -e "${white}//${yellow}//${green}//${mag}//    ${yellow}INSTALADOR SHADOWSOCKS$f"
 echo -e $DIVIS
-if [[ "$DROPSTATUS" = 'YES' ]]; then
+if [[ "$SHADOWSOCKSSTATUS" = 'YES' ]]; then
 service="shadowsocks";
 if (( $(ps -ef | grep -v grep | grep $service | wc -l) > 0 ))
 then
-echo -ne "$green $yellow [${blue}p$yellow] $yellow=$f$white $STOPSERVICE $f"; echo -e "$DROPINFO";
+echo -ne "$green $yellow [${blue}p$yellow] $yellow=$f$white $STOPSERVICE $f"; echo -e "$SHADOWSOCKSINFO";
 else
-echo -ne "$green $yellow [${blue}s$yellow] $yellow=$f$white $STARTSERVICE $f"; echo -e "$DROPINFO";
+echo -ne "$green $yellow [${blue}s$yellow] $yellow=$f$white $STARTSERVICE $f"; echo -e "$SHADOWSOCKSINFO";
 fi
 echo -e $DIVIS
 
@@ -355,12 +349,12 @@ v )  $mainmenu ;;
 p | P ) service shadowsocks stop 1>l  /dev/null 2> /dev/nul& RDYSPINNER
 echo -e "${white}//${yellow}//${green}//${mag}//    ${red}(STOP) ${blue}OPERAÇÃO ${green}CONCLUÍDA!$f";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...$f"; read -n1 -r -p "";
-RDYDROPBEAR ;;
+RDYSHADOWSOCKS ;;
 s | S ) service shadowsocks restart 1> /dev/null 2> /dev/null  & RDYSPINNER
 /etc/init.d/shadowsocks restart 1> /dev/null 2> /dev/null & RDYSPINNER
 echo -e "${white}//${yellow}//${green}//${mag}//    ${red}(START) ${blue}OPERAÇÃO ${green}CONCLUÍDA!$f";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...$f"; read -n1 -r -p "";
-RDYDROPBEAR ;;
+RDYSHADOWSOCKS ;;
 1 | 01) RDYSHADOWSOCKS;;
 2 | 02) echo -e "${white}//${yellow}//${green}//${mag}//    ${green} DESINSTALAR SHADOWSOCKS?$f"; read -p "[s/n]: " -e -i n REMOVE
 if [[ "$REMOVE" = 's' ]]; then
@@ -1355,7 +1349,7 @@ echo -e "$green $yellow [${blue}05$yellow] $yellow=$f$white OPENVPN $OPENSTATUSS
 echo -e "$green $yellow [${blue}06$yellow] $yellow=$f$white SOCKS 5 $SOCKSTATUSS $f"; 
 echo -e "$green $yellow [${blue}07$yellow] $yellow=$f$white SSL - STUNNEL4 $STUNNELSTATUSS $f";
 echo -e "$green $yellow [${blue}08$yellow] $yellow=$f$white MTPROTO $MTPROXYSTATUSS $f";
-echo -e "$green $yellow [${blue}09$yellow] $yellow=$f$white SHADOWSOCKS $SHADOWSOCKS $f";
+echo -e "$green $yellow [${blue}09$yellow] $yellow=$f$white SHADOWSOCKS $SHADOWSOCKSSTATUSS $f";
 echo -e "$green $yellow [${blue}00$yellow] $yellow=$f$white $EXIT $f";
 echo -e $DIVIS
 
@@ -1375,7 +1369,7 @@ $mainmenu ;;
 6 | 06 | socks5) RDYSOCKS ;;
 7 | 07) RDYSTUNNEL;;
 8 | 08) RDYMTPROTO;;
-9 | 09 | shadowsocks) SHADOWSOCKS;;
+9 | 09 | shadowsocks) RDYSHADOWSOCKS;;
 00) exit ;;
  *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $mainmenu;;
    esac
