@@ -416,8 +416,6 @@ yum install -y python-pip python-m2crypto > /dev/null 2> /dev/null  & RDYSPINNER
 pip install -y shadowsocks > /dev/null 2> /dev/null  & RDYSPINNER
 fi
 
-if [ -e "/etc/shadowsocks.json" ]
-then
 rm /etc/shadowsocks.json  > /dev/null 2> /dev/null
 echo -e '{
 "server":"dsvghv",
@@ -437,17 +435,9 @@ ex -r +%s/hsgdaaas/$sagd_method/ge -cwq /etc/shadowsocks.json
 
 sudo ssserver -c /etc/shadowsocks.json -d start
 
-echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}PORTA ${white}$PORTFINAL ${blue}DEFINIDA.$f";
-
-else
-#######
-echo -e "${red}OPS! HÁ ALGO DE ERRADO!\n${mag}Favor entrar em contato com seu fornecedor! ${mag}(SHADOWSOCKS CONFIG RUNNING)$f";
-echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
-$mainmenu
-fi
 echo -e "${white}//${yellow}//${green}//${mag}//    ${blue}CONFIGURAÇÃO CONCLUÍDA COM ${green}SUCESSO!$f";
 echo "";
-echo -e "${white}//${yellow}//${green}//${mag}//    ${green} √ ${white} PORTA SHADOWSOCKS:${red}  $PORTDROP 443 $f"
+echo -e "${white}//${yellow}//${green}//${mag}//    ${green} √ ${white} PORTA SHADOWSOCKS:${red}  $PORTFINAL $f"
 echo -e "${white}//${yellow}//${green}//${mag}//    ${green} √ ${white} IP/HOST: ${red} $IPQ$f"
 echo ""
 echo -e $DIVIS
