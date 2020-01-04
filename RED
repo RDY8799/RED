@@ -389,17 +389,17 @@ echo -e $DIVIS
 if [[ "$yesNo" = 's' ]]; then
 echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}VERIFIQUE SE O IP ESTÁ CORRETO $f"; read -p ": " -e -i $findippublic nsjkbhcb_ip
 echo ''
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}DEFINA UMA PORTA$f"; read -p ": " -e -i 80 nskajbhvc_port
+echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}DEFINA UMA PORTA$f"; read -p ": " -e -i 80 nskajbhvc_port
 PORTCHECK $nskajbhvc_port
 nskajbhvc_port=$PORTFINAL
 echo ''
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}DEFINA UMA SENHA$f"; read -p ": " hjsgc_password
+echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}DEFINA UMA SENHA$f"; read -p ": " hjsgc_password
 echo ''
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}TIMEOUT$f"; read -p ": " -e -i 600 gsadf_timeout
+echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}TIMEOUT$f"; read -p ": " -e -i 600 gsadf_timeout
 echo ''
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}PORTA LOCAL$f"; read -p ": " -e -i 1080 jbcxh_localport
+echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}PORTA LOCAL$f"; read -p ": " -e -i 1080 jbcxh_localport
 echo ''
-echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${blue}METÓDO$f"; read -p ": " -e -i aes-256-cfb sagd_method
+echo -ne "${white}(${mag}<${green}i${mag}>${white})    ${green}METÓDO$f"; read -p ": " -e -i aes-256-cfb sagd_method
 echo ''
 echo -e $DIVIS
 
