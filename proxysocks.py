@@ -12,7 +12,7 @@ PASS = ''
 BUFLEN = 4096 * 4
 TIMEOUT = 60
 DEFAULT_HOST = '127.0.0.1:22'
-RESPONSE = '\033[1;32mHTTP/1.1 200\033[1;36mRDY SOFTWARE\033[1;33m - Entre no canal @rdysoftware\r\n\r\n'
+RESPONSE = 'HTTP/1.1 200\033[1;36mRDY SOFTWARE\033[1;33m - Entre no canal @rdysoftware\r\n\r\n'
 
 
 # RESPONSE = 'HTTP/1.1 200 Hello_World!\r\nContent-length: 0\r\n\r\nHTTP/1.1 200 Connection established\r\n\r\n'  # lint:ok
