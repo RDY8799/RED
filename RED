@@ -1316,12 +1316,14 @@ echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla
 echo -e "${green}Starting socks(3 sec.)...$f";
 sleep 3
 chmod a+x /etc/rdy/python/proxysocks.py && nohup python /etc/rdy/python/proxysocks.py > /etc/rdy/python/proxysocks.txt &
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}OK\n\nPressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
 RDYINSTALL
 else
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para iniciar o sockcs..$f"; read -n1 -r -p "";
 echo -e "${green}Starting socks(3 sec.)...$f";
 sleep 3
 chmod a+x /etc/rdy/python/proxysocks.py && nohup python /etc/rdy/python/proxysocks.py > /etc/rdy/python/proxysocks.txt &
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}OK\n\nPressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
 RDYINSTALL
 fi
 
