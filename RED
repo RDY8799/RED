@@ -1306,7 +1306,7 @@ fi
 
 RDYSOCKS(){
 echo -e "$RDYHEADER";
-if [ ! -e /etc/rdy/socks/proxysocks.py ]
+if [ ! -e /etc/rdy/python/proxysocks.py ]
 then
 echo -e "${green}Downloading...$f";
 sleep 3
@@ -1316,6 +1316,7 @@ echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla
 echo -e "${green}Starting socks(3 sec.)...$f";
 sleep 3
 chmod a+x /etc/rdy/python/proxysocks.py && nohup python /etc/rdy/python/proxysocks.py > /etc/rdy/python/proxysocks.txt &
+RDYINSTALL
 else
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para iniciar o sockcs..$f"; read -n1 -r -p "";
 echo -e "${green}Starting socks(3 sec.)...$f";
