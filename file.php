@@ -35,6 +35,14 @@ if (strpos($function, "delete_user") !== false){
     }else {
     $comando = "nuser.sh $function";
     }
+}elseif (strpos($function, "users_count") !== false) {
+    $comando = "nuser.sh $function";
+}elseif (strpos($function, "users_count_expired") !== false) {
+    $comando = "nuser.sh $function";
+}elseif (strpos($function, "list_users_details") !== false) {
+    $comando = "nuser.sh $function";
+}elseif (strpos($function, "users_count_connected") !== false) {
+	$comando = "nuser.sh $function";
 }
 
 
@@ -59,7 +67,9 @@ if($ssh = ssh2_connect($server_ip, $server_port)) {
             }elseif (strpos($data, "RDYNOEXISTS") !== false){
                 echo "[$data] Usuario nao existe no servidor";
                 
-            }
+            }else{
+				echo "$data";
+			}
         }
     }
 }
