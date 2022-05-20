@@ -1,0 +1,115 @@
+#!/bin/bash
+
+clear
+
+red="\033[1;31m"
+green="\033[0;32m"
+cyan="\033[0;36m"
+f="\033[0m";
+
+function checkSudo(){
+if [ $(id -u) -eq 0 ]
+then
+	clear
+else
+	if echo $(id) |grep sudo > /dev/null
+	then
+	clear
+	echo -e "\033[1;37mVocê não é root"
+	echo -e "\033[1;37mSeu usuário está no grupo sudo"
+	echo -e "\033[1;37mPara tornar-se um usuário root execute \033[1;31msudo su\033[1;37m ou execute \033[1;31msudo $0\033[0m"
+	exit
+	else
+	clear
+	echo -e "Você não está como usuario root, nem com seus direitos (sudo)\nPara tornar-se um usuário root execute \033[1;31msu\033[0m e digite sua senha root"
+	exit
+	fi
+fi
+
+}
+
+checkSudo
+
+function openPort(){
+	
+	# protocol: 1 = tcp, 2 = udp
+	case $2 in
+	1 | 01)
+	prot="tcp"
+	;;
+	2 | 02)
+	prot="udp"
+	;;
+	*) echo -e "${red}OPÇÃO INVÁLIDA!$f"
+	;;
+	
+	esac
+
+echo -e "";
+echo -e "Confirmar: Abrir porta ${port} no protocolo ${prot}?"
+	echo -e "[S/N]"; read -p ": " option
+	case $option in
+	"s" | "S")
+	firewall-cmd --zone=public --permanent --add-port=${port}/${prot}
+	echo -e "${cyan}RELOADING FIREWALL...$f"
+	firewall-cmd --reload
+	echo -e ""
+	echo -e "${green}FINALIZADO!!$f"
+	echo -e ""
+	exit
+	;;
+	"n" | "N")
+	echo -e "${red}ABORTAR!$f";
+	exit
+	;;
+	*) echo -e "${red}OPÇÃO INVÁLIDA!$f"
+	;;
+	
+	esac
+}	
+
+echo -e "${red}RDY SOFTWARE {} 20/05/2022$f";
+echo -e "${cyan}ABRIR PORTAS NO FIREWALL$f";
+echo -e "Instale o firewalld se não tiver"
+echo -e ""
+echo -e "Digite a porta que deseja abrir"; 
+read -p "Porta: " port
+####
+
+if [ -z "$port" ]; then 
+	echo -e "${red}>>> PORTA INVÁLIDA!$f";
+	exit
+fi
+
+####
+echo -e ""
+####
+echo -e "Escolha o protocolo"
+echo -e "[01] TCP"
+echo -e "[02] UDP"
+read -p "1-2: " protocol
+
+case $protocol in
+1|01)
+   openPort $port $protocol
+   ;;
+2|02)
+   openPort $port $protocol
+   ;;
+*) 
+   echo -e "${red}OPÇÃO INVÁLIDA!$f"
+   exit
+   ;;
+esac
+
+#listar portas
+# firewall-cmd --zone=public --list-ports
+
+
+
+
+
+
+
+
+
