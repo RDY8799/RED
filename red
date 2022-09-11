@@ -132,13 +132,16 @@ then
 echo -e "${yellow} Criando diretório de strings...$none";
 sleep 1
 mkdir -p /etc/rdy/strings
-touch /etc/rdy/instaled
-echo true > /etc/rdy/instaled
+fi
+
+if test -f "${path}STRINGS"; then
+   rm ${path}$STRINGS
+fi
+
 echo -e "${yellow} Baixando arquivo de strings...$none";
 wget -P ${path}strings https://raw.githubusercontent.com/RDY8799/cred/master/STRINGS 1> /dev/null 2> /dev/null
 chmod 711 ${path}strings/strings 1> /dev/null 2> /dev/null
 sleep 1
-fi
 
 echo
 
@@ -152,9 +155,13 @@ fi
 if test -f "${path}$str"; then
    rm ${path}$str
 fi
+echo -e "${yellow} Baixando módulo ${red}$str ...${none}"
 wget -P ${path}$str https://raw.githubusercontent.com/RDY8799/cred/master/$str 1> /dev/null 2> /dev/null
 chmod 711 ${path}$str/$str 1> /dev/null 2> /dev/null
 done
+
+touch /etc/rdy/instaled
+echo true > /etc/rdy/instaled
 
 echo -e "${green} $OK ${none}";
 }
