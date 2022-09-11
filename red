@@ -134,12 +134,12 @@ sleep 1
 mkdir -p /etc/rdy/strings
 fi
 
-if test -f "${path}STRINGS"; then
-   rm ${path}$STRINGS
+if test -f "/etc/rdy/strings/STRINGS"; then
+   rm /etc/rdy/strings/$STRINGS
 fi
 
 echo -e "${yellow} Baixando arquivo de strings...$none";
-wget -P ${path}strings https://raw.githubusercontent.com/RDY8799/cred/master/STRINGS 1> /dev/null 2> /dev/null
+wget -P ${path}strings https://raw.githubusercontent.com/RDY8799/red/master/STRINGS 1> /dev/null 2> /dev/null
 chmod 711 ${path}strings/strings 1> /dev/null 2> /dev/null
 sleep 1
 
@@ -156,7 +156,7 @@ if test -f "${path}$str"; then
    rm ${path}$str
 fi
 echo -e "${yellow} Baixando módulo ${red}$str ...${none}"
-wget -P ${path}$str https://raw.githubusercontent.com/RDY8799/cred/master/$str
+wget -P ${path}$str https://raw.githubusercontent.com/RDY8799/red/master/$str
 chmod 711 ${path}$str/$str 1> /dev/null 2> /dev/null
 done
 
