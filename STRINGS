@@ -1,0 +1,96 @@
+#!/bin/bash
+
+path="/etc/rdy/modules/";
+red='\e[91m'
+green='\e[92m'
+yellow='\e[93m'
+magenta='\e[95m'
+cyan='\e[96m'
+blue='\033[1;34m'
+none='\e[0m'
+_red() { echo -e ${red}$*${none}; }
+_green() { echo -e ${green}$*${none}; }
+_yellow() { echo -e ${yellow}$*${none}; }
+_magenta() { echo -e ${magenta}$*${none}; }
+_cyan() { echo -e ${cyan}$*${none}; }
+
+# Verifica ano atual
+year=$(date +'%Y')
+ABOUT="© ${blue}Copyright ${yellow}RDY ${red}SOFTWARE ${yellow}{${red}}${none} ${blue}${year}${none}";
+
+cat -n /etc/issue |grep 1 |cut -d' ' -f6,7,8 |sed 's/1//' |sed 's/	//' > /etc/so
+
+# VERIFICAR O IP DO SERVIDOR
+INTERNAL_IP=(hostname -I)
+PUBLIC_IP=$(wget -qO- icanhazip.com)
+#ippublic="${white}IP público:${cyan} ${none}indippublic${none}";
+SYSTEM_NAME=(cat /etc/so)
+
+VERSION="v1.0.1";
+USERNAME="USUÁRIO";
+SYSTEM="SISTEMA";
+USERPROFILENAME=$USER;
+
+###### CONF. RAM/MEMÓRIA
+CPU_USADA="CPU USADA:";
+RAM_USADA="RAM USADA:";
+MB="MB";
+LIVRE="LIVRE:";
+SWAP="SWAP";
+###### FIM
+
+FIREWALL="FIREWALL";
+UPDATE_SYSTEM="ATUALIZAR SISTEMA";
+SPEEDTEST="TESTAR VELOCIDADE DE BANDA-${magneta}SPEEDTEST$f";
+REBOOT_SYSTEM="REINIICIAR SISTEMA";
+NOTIFICATION="Notificações";
+MENU_INSTALL="INSTALADOR/COFIGURAR";
+MANAGE_USERS="GERENCIAMENTO DE USUÁRIOS";
+TOOLS="FERRAMENTAS";
+EXIT="SAIR";
+OP_NOT_DEVELOPED="OPÇÃO NÃO DESENVOLVIDA";
+OK="✓ OK ✓";
+
+# ESTADO DE RAM
+CPU=$(ps aux  | awk 'BEGIN { sum = 0 }  { sum += sprintf("%f",$3) }; END { printf " " "%.2f" "%%", sum}')
+totalram=$(free | grep Mem | awk '{print $2}')
+usedram=$(free | grep Mem | awk '{print $3}')
+freeram=$(free | grep Mem | awk '{print $4}')
+swapram=$( cat /proc/meminfo | grep SwapTotal | awk '{print $2}')
+
+DIVIS="${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}";
+
+HEADER="$yellow CPU USADA:$cyan$CPU ${blue}|${none}$yellow RAM USADA: $cyan$(($usedram / 1024))MB$yellow LIVRE: $cyan$(($freeram / 1024))MB ${blue}|${none}$yellow SWAP: $cyan$(($swapram / 1024))MB ${none}\n$green ##### $white IP:$cyano  $PUBLIC_IP | Interno: $INTERNAL_IP ${none}\n$green ##### $white $SYSTEM:$cyan  $SYSTEM_INFO ${none}\n$green ##### $white $USER:$cyan  $USERPROFILENAME ${none}\n$DIVIS\n$green $yellow [${blue}i$yellow] $yellow=${none}$white $NOTIFICATION $yellow 0        ${blue}/${red}/${green}/ $cyan$ABOUT${none}\n$DIVIS";
+
+# PROGRESS BAR
+RDYSPINNER()
+{
+    local pid=$!
+    local delay=0.50
+    local spinstr='|/-\'
+	tput civis -- invisible
+    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+        local temp=${spinstr#?}
+        printf " ${yellow}[${magenta}%c${red}]${none}  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b\b\b"
+    done
+    printf "    \b\b\b\b"
+	tput cnorm -- normal
+}
+
+
+# TIPO DE SISTEMA
+if [[ -e /etc/debian_version ]]; then
+	OS=debian
+	GROUPNAME=nogroup
+	RCLOCAL='/etc/rc.local'
+elif [[ -e /etc/centos-release || -e /etc/redhat-release ]]; then
+	OS=centos
+	GROUPNAME=nobody
+	RCLOCAL='/etc/rc.d/rc.local'
+else
+	echo "Looks like you aren't running this installer on a Debian, Ubuntu or CentOS system"
+	exit 2
+fi
