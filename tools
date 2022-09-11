@@ -28,11 +28,11 @@ echo
 echo -e "${green} Será criada uma pasta com o nome do módulo (${magenta}${modulename}${none}${green}) e o módulo, baixado através do link, será salvo nessa pasta, o arquivo será renomeado para o nome definido ${none}";
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para continuar, ou CTRL+C para cancelar$f"; read -n1 -r -p "";
 echo
-if [ ! -f ${path}$module_name ]; then
+if [ ! -f ${path}$modulename ]; then
 
 wget -cO - $modulelink > ${path}$modulename #1> /dev/null 2> /dev/null
 
-chmod 711 ${path}$module_name
+chmod 711 ${path}$modulename
 echo -e "${green} $OK ${none}";
 fi
 
