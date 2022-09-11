@@ -30,7 +30,7 @@ cat -n /etc/issue |grep 1 |cut -d' ' -f6,7,8 |sed 's/1//' |sed 's/	//' > /etc/so
 INTERNAL_IP=(hostname -I)
 PUBLIC_IP=$(wget -qO- icanhazip.com)
 #ippublic="${white}IP público:${cyan} ${none}indippublic${none}";
-SYSTEM_NAME=(cat /etc/so)
+SYSTEM_INFO=(cat /etc/so)
 
 VERSION="v1.0.1";
 USERNAME="USUÁRIO";
@@ -66,7 +66,7 @@ swapram=$( cat /proc/meminfo | grep SwapTotal | awk '{print $2}')
 
 DIVIS="${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}${blue}/${none}${white}==${none}";
 
-HEADER="$yellow CPU USADA:$cyan$CPU ${blue}|${none}$yellow RAM USADA: $cyan$(($usedram / 1024))MB$yellow LIVRE: $cyan$(($freeram / 1024))MB ${blue}|${none}$yellow SWAP: $cyan$(($swapram / 1024))MB ${none}\n$green ##### $white IP:$cyano  $PUBLIC_IP | Interno: $INTERNAL_IP ${none}\n$green ##### $white $SYSTEM:$cyan  $SYSTEM_INFO ${none}\n$green ##### $white $USER:$cyan  $USERPROFILENAME ${none}\n$DIVIS\n$green $yellow [${blue}i$yellow] $yellow=${none}$white $NOTIFICATION $yellow 0        ${blue}/${cred}/${green}/ $cyan$ABOUT${none}\n$DIVIS";
+HEADER="$yellow CPU USADA:$cyan$CPU ${blue}|${none}$yellow RAM USADA: $cyan$(($usedram / 1024))MB$yellow LIVRE: $cyan$(($freeram / 1024))MB ${blue}|${none}$yellow SWAP: $cyan$(($swapram / 1024))MB ${none}\n$green ##### $white IP:$cyano  $PUBLIC_IP | Interno: $INTERNAL_IP ${none}\n$green ##### $white $SYSTEM:$cyan  $SYSTEM_INFO ${none}\n$green ##### $white USUÁRIO:$cyan  $USERPROFILENAME ${none}\n$DIVIS\n$green $yellow [${blue}i$yellow] $yellow=${none}$white $NOTIFICATION $yellow 0        ${blue}/${cred}/${green}/ $cyan$ABOUT${none}\n$DIVIS";
 
 # PROGRESS BAR
 RDYSPINNER()
@@ -161,7 +161,7 @@ chmod 711 ${path}$str/$str 1> /dev/null 2> /dev/null
 done
 
 touch /etc/rdy/instaled
-echo true > /etc/rdy/instaled
+echo true > /etc/rdy/installed
 
 echo -e "${green} $OK ${none}";
 }
@@ -200,7 +200,7 @@ red menu;;
 2 | 02) bash ${path}usermanager/usermanager;;
 3 | 03) bash ${path}tools/tools;;
 4 | 04) RDYABOUT;;
-un ) rm ${path}installed ;;
+un ) rm /etc/rdy/installed ;;
 00 | 0) exit ;;
 remove_all | r_all ) 
 echo -e "removendo resíduos, isso é ${cred}PERIGOSO!$f";
@@ -245,7 +245,7 @@ fi
 }
 
 if [[ $1 == "un" ]]; then
-        rm ${path}installed
+        rm /etc/rdy/installed
         exit 1
 fi
 
