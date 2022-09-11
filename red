@@ -216,7 +216,7 @@ menu
 }
 
 load(){
-if [ $(cat /etc/rdy/instaled) == "true" ]; then
+if [ $(cat /etc/rdy/installed) == "true" ]; then
 menu
 else
 
