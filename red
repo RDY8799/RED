@@ -182,13 +182,13 @@ echo -e "$green $yellow [${blue}03$yellow] $yellow=$f$white $TOOLS $f";
 echo -e "$green $yellow [${blue}04$yellow] $yellow=$f$white SOBRE $f";
 echo -e "$green $yellow [${blue}00$yellow] $yellow=$f$white $EXIT $f";
 echo -e $DIVIS
-echo -ne "$yellow  Opção:$f";read -p ""  option
+echo -ne "$yellow Opção:$f";read -p ""  option
 case $option in
 
 i | I ) echo -e "${white}//${yellow}//${green}//${mag}//    ${green}$OP_NOT_DEVELOPED$f";
-cred menu;;
+red menu;;
 n | net | N | NET) 
-cred menu;;
+red menu;;
 1 | 01) bash ${path}install/install;;
 2 | 02) bash ${path}usermanager/usermanager;;
 3 | 03) bash ${path}tools/tools;;
@@ -234,7 +234,13 @@ while :; do
 	done
 
 fi
+
 }
+
+if [[ $1 == "un" ]]; then
+        rm ${path}installed
+        exit 1
+fi
 
 if [[ $1 == "menu" ]]; then
         menu
