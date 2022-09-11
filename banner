@@ -1,0 +1,58 @@
+#!/bin/bash
+
+
+source="/etc/rdy/strings/STRINGS";
+path="/etc/rdy/modules/tools/banner/";
+path_tools="/etc/rdy/modules/tools/tools";
+
+RDYBANNER(){
+echo -e "${blue}--$yellow>>$f$white menu${blue}/${yellow}$TOOLS${blue}/${mag}$CREATE_BANNER${none}";
+echo -e $DIVIS
+ssg=$(cat /etc/ssh/sshd_config |grep -v "Banner")
+echo "$ssg" > /etc/ssh/sshd_config
+echo "Banner /etc/rdy/banner" >> /etc/ssh/sshd_config
+service ssh restart 1>/dev/null 2>/dev/null
+service sshd restart 1>/dev/null 2>/dev/null
+if [ -f ${path}banner ]
+then
+banner=$(cat ${path}banner)
+else
+banner="Sem Banner!"
+fi
+echo -e "${green} BANNER ATUAL:\n\n${white} $banner\n${none}"
+echo -ne "${blue}[1/2]${green} Texto ${none}"; read -p ": " banner
+if [[ "$banner" = 'v' ]]; then
+read -p "Quer mesmo voltar? [s/n]: " esco
+if [[ "$esco" = 's' ]]; then
+
+fi
+elif [[ "$banner" = '' ]]; then
+bash ${path_tools}
+fi
+echo -ne "${blue}[2/2]${green} (a)Adicionar ${yellow}(s)Substuir${none}"; read -p ": " option
+if [[ "$option" = 'v' ]]; then
+read -p "Quer mesmo voltar? [s/n]: " esco
+if [[ "$esco" = 's' ]]; then
+bash ${path_tools}
+fi
+elif [[ "$option" = '' ]]; then
+bash ${path_tools}
+fi
+echo -e $DIVIS
+echo
+touch ${path}banner
+if [[ "$option" = 'a' ]]; then
+echo -e "\n$banner" >> ${path}banner
+elif [[ "$option" = 's' ]]; then
+echo -e "$banner" > ${path}banner
+else
+echo -e "$banner" > ${path}banner
+fi
+service ssh restart 1> /dev/null 2>/dev/null
+service sshd restart 1>/dev/null 2>/dev/null
+
+echo -e "${green} BANNER ATUAL:\n\n${white} $banner\n${none}"
+echo -e "${green}SALVO EM ${mag}${path}banner${none}";
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar...${none}"; read -n1 -r -p "";
+bash ${path_tools}
+}

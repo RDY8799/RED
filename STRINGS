@@ -1,13 +1,14 @@
 #!/bin/bash
 
 path="/etc/rdy/modules/";
-red='\e[91m'
+cred='\e[91m'
 green='\e[92m'
 yellow='\e[93m'
 magenta='\e[95m'
 cyan='\e[96m'
 blue='\033[1;34m'
 none='\e[0m'
+f='\e[0m'
 _red() { echo -e ${red}$*${none}; }
 _green() { echo -e ${green}$*${none}; }
 _yellow() { echo -e ${yellow}$*${none}; }
