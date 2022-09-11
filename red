@@ -147,7 +147,7 @@ echo
 
 echo -e "${yellow} Baixando módulos...$none";
 folders=("usermanager" "tools" "install")
-for str in $folders[@]}; do
+for str in ${folders[@]}; do
   if [ ! -d ${path}$str ]
 then
 mkdir -p ${path}$str
@@ -175,7 +175,7 @@ echo -e "${yellow}   //// ${cred}// ${green}/  ${yellow}RDY SCRIPT - cred\n${yel
 echo -e "\n\n";
 echo -e $DIVIS
 echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
-red menu
+menu
 }
 
 menu(){
@@ -193,7 +193,7 @@ echo -ne "$yellow Opção:$f";read -p ""  option
 case $option in
 
 i | I ) echo -e "${white}//${yellow}//${green}//${mag}//    ${green}$OP_NOT_DEVELOPED$f";
-red menu;;
+menu;;
 n | net | N | NET) 
 red menu;;
 1 | 01) bash ${path}install/install;;
@@ -208,7 +208,7 @@ find /tmp -mtime +7 |\
     egrep -v "`lsof -n +D /tmp | awk 'NR>1 {print $9}'| tr \\n \|`" & RDYSPINNER
 		echo "concluído!";;
  *)echo -e "$cred Opção inválida $none" ; echo "" ; sleep 2 ; 
-red menu
+menu
 ;;
    esac
 #######################################################################################
