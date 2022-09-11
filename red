@@ -156,7 +156,7 @@ if test -f "${path}$str"; then
    rm ${path}$str
 fi
 echo -e "${yellow} Baixando módulo ${red}$str ...${none}"
-wget -P ${path}$str https://raw.githubusercontent.com/RDY8799/cred/master/$str 1> /dev/null 2> /dev/null
+wget -P ${path}$str https://raw.githubusercontent.com/RDY8799/cred/master/$str
 chmod 711 ${path}$str/$str 1> /dev/null 2> /dev/null
 done
 
