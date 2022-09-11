@@ -136,7 +136,7 @@ mkdir -p /etc/rdy/strings
 fi
 
 if test -f "${pathstrings}STRINGS"; then
-   rm ${pathstrings}STRINGS
+   rm ${pathstrings}STRINGS*
 fi
 
 echo -e "${yellow} Baixando arquivo de strings...$none";
@@ -154,7 +154,7 @@ then
 mkdir -p ${path}$str
 fi
 if test -f "${path}$str"; then
-   rm ${path}$str
+   rm ${path}$str*
 fi
 echo -e "${yellow} Baixando módulo ${red}$str ...${none}"
 wget -P ${path}$str https://raw.githubusercontent.com/RDY8799/red/master/$str
