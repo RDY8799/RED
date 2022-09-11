@@ -1,0 +1,99 @@
+#!/bin/bash
+
+source /etc/rdy/strings/STRINGS
+
+modules_list=/etc/rdy/modules/tools/list_modules.rdy
+path="/etc/rdy/modules/tools/"
+
+
+if [ ! -f $modules_list ]; then
+touch $modules_list
+fi
+
+number=$(wc -l $modules_list)
+numberlist=$(echo "$number" |awk -F " " '{print $1}')
+
+
+add_module(){
+echo
+echo -e "${DIVIS}";
+echo -e "${yellow} ADICIONAR NOVO MÓDULO ${none}";
+echo
+echo -e "${cyan} NOME DO MÓDULO ${none}";
+read -p ">>> " modulename
+echo 
+echo -e "${cyan} LINK DE DOWNLOAD ${none}";
+read -p ">>> " modulelink
+echo
+echo -e "${green} Será criada uma pasta com o nome do módulo (${magenta}${modulename}${none}${green}) e o módulo, baixado através do link, será salvo nessa pasta, o arquivo será renomeado para o nome definido ${none}";
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para continuar, ou CTRL+C para cancelar$f"; read -n1 -r -p "";
+echo
+if [ ! -f ${path}$module_name ]; then
+
+wget -cO - $modulelink > ${path}$modulename #1> /dev/null 2> /dev/null
+
+chmod 711 ${path}$module_name
+echo -e "${green} $OK ${none}";
+fi
+
+bash ${path}tools
+
+}
+
+
+menu(){
+echo -e "${blue} [add]${geen} /> ${yellow} FERRAMENTAS$f";
+nl -w2 -s " /> " $modules_list
+echo "";
+echo -ne "$cyano Opção [1 - $numberlist, ${red}0 exit${cyano}] $f"; read -p "/> " option
+
+case $option in
+add | ADD) add_module ;;
+help | ajuda) help ;;
+00 | 0 | exit | EXIT) exit ;;
+ *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $rdymain;;
+   esac
+}
+
+menu
+
+RDYTOOLS(){
+clear
+echo -e $DIVIS
+echo -e "${HEADER}";
+echo -e "$green $yellow [${blue}01$yellow] $yellow=$f$white $CREATE_BANNER $f"; 
+echo -e "$green $yellow [${blue}02$yellow] $yellow=$f$white $CLEARCACHE $f"; 
+echo -e "$green $yellow [${blue}03$yellow] $yellow=$f$white $FIREWALL $f"; 
+echo -e "$green $yellow [${blue}04$yellow] $yellow=$f$white $ADD_REMOVE_HOSTS $f";
+echo -e "$green $yellow [${blue}05$yellow] $yellow=$f$white $UPDATE_SYSTEM $f";
+echo -e "$green $yellow [${blue}06$yellow] $yellow=$f$white $SPEEDTEST $f";
+echo -e "$green $yellow [${blue}07$yellow] $yellow=$f$white $REBOOT_SYSTEM $f";
+echo -e "$green $yellow [${blue}00$yellow] $yellow=$f$white $EXIT $f";
+echo -e $DIVIS
+echo -ne "$yellow  Opção:$f";read -p ""  option
+case $option in
+i | I ) echo -e "${white}//${yellow}//${green}//${mag}//    ${green}$OP_NOT_DEVELOPED$f";
+red;;
+v | V | back | BACK | voltar | VOLTAR ) red;;
+n | net | N | NET) netstat -nlpt
+echo -ne "${white}//${yellow}//${green}//${mag}//    ${green}Pressione uma tecla para retornar ao menu inicial...$f"; read -n1 -r -p "";
+$mainmenu;;
+1 | 01) RDYBANNER;;
+2 | 02) RDYCLEARCACHE;;
+3 | 03) echo -e "${white}//${yellow}//${green}//${mag}//    ${green}$OP_NOT_DEVELOPED$f"
+red;;
+4 | 04) RDYADD_REMOVE_HOSTS;;
+5 | 05) RDYUPDATE_SYSTEM;;
+00 | 0) exit ;;
+remove_all | r_all ) 
+echo -e "removendo resíduos, isso é ${red}PERIGOSO!$f";
+find /tmp -mtime +7 |\
+    egrep -v "`lsof -n +D /tmp | awk 'NR>1 {print $9}'| tr \\n \|`" & RDYSPINNER
+	echo "concluído!";;
+ *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $mainmenu;;
+   esac
+
+}
+
+
+#RDYTOOLS
