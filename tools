@@ -38,6 +38,7 @@ rm ${path}$modulename/${modulename}*
 
 fi
 
+echo $modulename >> $modules_list
 wget -cO - $modulelink > ${path}$modulename/$modulename #1> /dev/null 2> /dev/null
 chmod 711 ${path}$modulename/$modulename
 echo -e "${green} $OK ${none}";
@@ -48,17 +49,28 @@ bash ${path}tools
 
 
 menu(){
-echo -e "${blue} [add]${geen} /> ${yellow} FERRAMENTAS$f";
+echo -e "${DIVIS}"; 
+echo -e "${yellow} FERRAMENTAS ${none}";
+echo -e "${DIVIS}"; 
+echo -e "${blue} [add]${green} /> ${yellow} ADICIONAR MÓDULO$f";
 nl -w2 -s " /> " $modules_list
 echo "";
 echo -ne "$cyano Opção [1 - $numberlist, ${red}0 exit${cyano}] $f"; read -p "/> " option
+
+if [[ "$option" = 'add' ]] || [[ "$option" = 'ADD' ]] || [[ "$option" = 'help' ]] || [[ "$option" = 'ajuda' ]] || [[ "$option" = '0' ]] || [[ "$option" = 'exit' ]] || [[ "$option" = 'EXIT' ]]; then
 
 case $option in
 add | ADD) add_module ;;
 help | ajuda) help ;;
 00 | 0 | exit | EXIT) exit ;;
- *)echo -e "$red Opção inválida!$f" ; echo "" ; sleep 2 ; $rdymain;;
+ *)echo -e "$cred Opção inválida!$f" ; echo "" ; sleep 2 ; ${path}tools;;
    esac
+
+else
+command=$(sed -n ${option}p $directory)
+echo "$action";
+bash ${path}$command/$command
+fi
 }
 
 menu
