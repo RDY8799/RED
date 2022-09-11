@@ -2,6 +2,7 @@
 
 
 path="/etc/rdy/modules/";
+pathstrings="/etc/rdy/strings/";
 cred='\e[91m'
 green='\e[92m'
 yellow='\e[93m'
@@ -134,13 +135,13 @@ sleep 1
 mkdir -p /etc/rdy/strings
 fi
 
-if test -f "/etc/rdy/strings/STRINGS"; then
-   rm /etc/rdy/strings/$STRINGS
+if test -f "${pathstrings}STRINGS"; then
+   rm ${pathstrings}STRINGS
 fi
 
 echo -e "${yellow} Baixando arquivo de strings...$none";
-wget -P ${path}strings https://raw.githubusercontent.com/RDY8799/red/master/STRINGS 1> /dev/null 2> /dev/null
-chmod 711 ${path}strings/strings 1> /dev/null 2> /dev/null
+wget -P ${pathstrings} https://raw.githubusercontent.com/RDY8799/red/master/STRINGS 1> /dev/null 2> /dev/null
+chmod 711 ${pathstrings}STRINGS 1> /dev/null 2> /dev/null
 sleep 1
 
 echo
@@ -157,11 +158,11 @@ if test -f "${path}$str"; then
 fi
 echo -e "${yellow} Baixando módulo ${red}$str ...${none}"
 wget -P ${path}$str https://raw.githubusercontent.com/RDY8799/red/master/$str
-chmod 711 ${path}$str/$str 1> /dev/null 2> /dev/null
+chmod 711 /${path}$str/$str 1> /dev/null 2> /dev/null
 done
 
-touch /etc/rdy/instaled
-echo true > /etc/rdy/installed
+touch ${pathstrings}installed
+echo true > ${pathstrings}installed
 
 echo -e "${green} $OK ${none}";
 }
