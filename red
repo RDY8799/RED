@@ -154,15 +154,15 @@ then
 mkdir -p ${path}$str
 fi
 if test -f "${path}$str"; then
-   rm ${path}$str*
+   rm ${path}${str}*
 fi
 echo -e "${yellow} Baixando módulo ${red}$str ...${none}"
 wget -P ${path}$str https://raw.githubusercontent.com/RDY8799/red/master/$str
 chmod 711 /${path}$str/$str 1> /dev/null 2> /dev/null
 done
 
-touch ${pathstrings}installed
-echo true > ${pathstrings}installed
+touch /etc/rdy/installed
+echo true > /etc/rdy/installed
 
 echo -e "${green} $OK ${none}";
 }
@@ -246,7 +246,7 @@ fi
 }
 
 if [[ $1 == "un" ]]; then
-        rm /etc/rdy/installed
+        rm /etc/rdy/installed*
         exit 1
 fi
 
