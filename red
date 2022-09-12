@@ -30,7 +30,6 @@ cat -n /etc/issue |grep 1 |cut -d' ' -f6,7,8 |sed 's/1//' |sed 's/	//' > /etc/so
 # VERIFICAR O IP DO SERVIDOR
 INTERNAL_IP=(hostname -I)
 PUBLIC_IP=$(wget -qO- icanhazip.com)
-#ippublic="${white}IP público:${cyan} ${none}indippublic${none}";
 SYSTEM_INFO=(cat /etc/so)
 
 VERSION="v1.0.1";

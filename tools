@@ -39,7 +39,7 @@ rm ${path}$modulename/${modulename}*
 fi
 
 echo $modulename >> $modules_list
-wget -cO - $modulelink > ${path}$modulename/$modulename 1> /dev/null 2> /dev/null
+wget -O ${path}${modulename}/${modulename} $modulelink 1> /dev/null 2> /dev/null
 chmod 711 ${path}$modulename/$modulename
 echo -e "${green} $OK ${none}";
 
@@ -68,7 +68,7 @@ help | ajuda) help ;;
 
 else
 command=$(sed -n ${option}p $modules_list)
-bash ${path}$command/$command
+bash ${path}$command/$command $command
 fi
 }
 
