@@ -194,8 +194,7 @@ case $option in
 
 i | I ) echo -e "${white}//${yellow}//${green}//${mag}//    ${green}$OP_NOT_DEVELOPED$f";
 menu;;
-n | net | N | NET) 
-red menu;;
+n | net | N | NET) NESTAT;;
 1 | 01) bash ${path}install/install;;
 2 | 02) bash ${path}usermanager/usermanager;;
 3 | 03) bash ${path}tools/tools;;
